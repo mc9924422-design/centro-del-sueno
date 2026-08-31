@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herramientas de Autoayuda — Cómo dormir sin despertarte a las 3 AM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220; --card:#141F33; --cta:#A99BFF; --cta-hover:#B8ADFF;
+    --accent:#8EB7D9; --heading:#F7F4ED; --body:#AEB8C8; --success:#91B9A5;
+    --linea:rgba(247,244,237,.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:'Fraunces',serif; font-weight:600; color:var(--heading); letter-spacing:-.01em; }
+  a{ color:inherit; }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 20px; }
+
+  nav.topnav{ background:#070C16; border-bottom:1px solid var(--linea); position:sticky; top:0; z-index:50; }
+  .navbar{ max-width:900px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .navbar .logo{ font-family:'Fraunces',serif; color:var(--heading); font-size:1.05rem; }
+  .tabs{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs a{ text-decoration:none; font-size:.86rem; font-weight:500; color:var(--body); padding:8px 14px; border-radius:8px; border:1px solid transparent; }
+  .tabs a:hover{ color:var(--heading); }
+  .tabs a.active{ background:var(--card); color:var(--accent); border-color:var(--linea); }
+
+  header.hero{ padding:44px 0 30px; text-align:center; }
+  header.hero .icon{ font-size:2.2rem; margin-bottom:10px; }
+  header.hero h1{ font-size:1.9rem; margin-bottom:8px; }
+  header.hero p{ color:var(--body); max-width:520px; margin:0 auto; }
+
+  .instrucciones{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:26px 28px; margin:0 0 40px; display:flex; flex-direction:column; gap:14px; }
+  .instrucciones h2{ font-size:1rem; font-family:'Inter',sans-serif; font-weight:700; color:var(--heading); }
+  .instrucciones p{ font-size:.94rem; color:var(--body); }
+
+  section{ margin-bottom:44px; }
+  section > h2{ font-size:1.35rem; margin-bottom:18px; }
+
+  /* Filtros de categoría */
+  .filtros{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px; }
+  .filtro-btn{
+    background:var(--card); border:1px solid var(--linea); color:var(--body);
+    padding:9px 16px; border-radius:999px; cursor:pointer; font-size:.86rem; font-family:inherit;
+  }
+  .filtro-btn.active{ background:var(--accent); color:#0B1220; border-color:var(--accent); font-weight:600; }
+
+  /* Recursos */
+  .recursos-grid{ display:flex; flex-direction:column; gap:14px; }
+  .recurso-card{
+    background:var(--card); border:1px solid var(--linea); border-radius:14px; overflow:hidden;
+  }
+  .recurso-header{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:20px 22px; cursor:pointer;
+  }
+  .recurso-header .titulo-wrap{ display:flex; align-items:center; gap:14px; }
+  .recurso-header .icon{ font-size:1.4rem; flex:0 0 auto; }
+  .recurso-header h3{ font-size:1.02rem; }
+  .recurso-header .categoria{ font-size:.78rem; color:var(--accent); margin-top:2px; }
+  .recurso-header .toggle{ color:var(--body); font-size:1.1rem; transition:transform .2s ease; flex:0 0 auto; }
+  .recurso-card.open .toggle{ transform:rotate(45deg); }
+  .recurso-body{
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+    padding:0 22px;
+  }
+  .recurso-card.open .recurso-body{ max-height:500px; padding:0 22px 20px; }
+  .recurso-body p{ font-size:.93rem; color:var(--body); margin-bottom:10px; }
+  .recurso-footer{ display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
+  .marcar-leido{ display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--body); cursor:pointer; }
+  .marcar-leido input{ accent-color:var(--success); width:15px; height:15px; }
+  .badge-leido{ font-size:.75rem; color:var(--success); font-weight:600; display:none; }
+  .recurso-card.leido .badge-leido{ display:inline; }
+
+  /* Progreso */
+  .progreso-box{
+    background:var(--card); border:1px solid var(--linea); border-radius:14px;
+    padding:20px 22px; display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  }
+  .progreso-bar-track{ flex:1; min-width:160px; height:10px; background:var(--bg); border-radius:999px; overflow:hidden; }
+  .progreso-bar-fill{ height:100%; background:linear-gradient(90deg, var(--accent), var(--cta)); border-radius:999px; transition:width .3s ease; width:0%; }
+  .progreso-box .num{ font-family:'Fraunces',serif; color:var(--heading); font-size:1.1rem; white-space:nowrap; }
+
+  .toast{ position:fixed; bottom:24px; left:50%; transform:translate(-50%,20px); background:var(--success); color:#0B1220; font-weight:600; font-size:.92rem; padding:12px 22px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:100; }
+  .toast.show{ opacity:1; transform:translate(-50%,0); }
+
+  footer{ background:#070C16; border-top:1px solid var(--linea); text-align:center; padding:30px 20px; color:var(--body); font-size:.85rem; margin-top:60px; }
+  footer a{ color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navbar">
+    <div class="logo">🌙 Cómo Dormir Sin Despertarte a las 3 AM</div>
+    <div class="tabs">
+      <a href="herramienta-1-respiracion.html">1. Respiración</a>
+      <a href="herramienta-2-rutina.html">2. Rutina</a>
+      <a href="herramienta-3-registro.html">3. Registro</a>
+      <a href="herramienta-4-autoayuda.html" class="active">4. Autoayuda</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="icon">💚</div>
+    <h1>Herramientas de Autoayuda</h1>
+    <p>Recursos y consejos para fortalecer tu salud mental y física relacionada con el sueño.</p>
+  </header>
+
+  <div class="instrucciones">
+    <h2>🎯 QUÉ HACE ESTA HERRAMIENTA</h2>
+    <p>Proporciona herramientas útiles para mejorar tu bienestar general y calidad de sueño.</p>
+    <h2>📝 CÓMO USARLA</h2>
+    <p>1. Explora los recursos disponibles en la biblioteca.<br>2. Selecciona los que te interesen y márcalos como leídos.<br>3. Aplica lo aprendido a tu vida diaria.</p>
+    <h2>✅ QUÉ VAS A OBTENER</h2>
+    <p>Recursos valiosos para mejorar tu salud mental y física, lo que impactará positivamente tu sueño.</p>
+  </div>
+
+  <section>
+    <div class="progreso-box">
+      <div class="num" id="progresoTexto">0 de 0 leídos</div>
+      <div class="progreso-bar-track"><div class="progreso-bar-fill" id="progresoFill"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Biblioteca de recursos</h2>
+    <div class="filtros" id="filtros">
+      <button class="filtro-btn active" data-cat="todos">Todos</button>
+      <button class="filtro-btn" data-cat="estres">Manejo del estrés</button>
+      <button class="filtro-btn" data-cat="nutricion">Nutrición y sueño</button>
+      <button class="filtro-btn" data-cat="ejercicio">Ejercicio físico</button>
+    </div>
+    <div class="recursos-grid" id="recursosGrid"></div>
+  </section>
+</div>
+
+<div class="toast" id="toast">¡Guardado!</div>
+
+<footer>
+  Creado con 💜 para tus mejores noches — <a href="https://www.instagram.com/digitalgrowthia/" target="_blank" rel="noopener">@digitalgrowthia</a>
+</footer>
+
+<script>
+const STORAGE_KEY = 'sleep_tool4_autoayuda';
+
+const recursos = [
+  {
+    id:'r1', cat:'estres', icon:'🧘',
+    titulo:'Cómo calmar la mente cuando los pensamientos no paran',
+    texto:'Cuando te despiertas a las 3 AM, la mente suele acelerarse con preocupaciones. Una técnica simple es la "descarga mental": ten papel junto a la cama y escribe brevemente lo que te preocupa, sin buscar soluciones en ese momento. Esto le indica a tu cerebro que el pensamiento ya quedó registrado y no necesita seguir repitiéndolo.'
+  },
+  {
+    id:'r2', cat:'estres', icon:'🌿',
+    titulo:'La técnica 5-4-3-2-1 para volver al presente',
+    texto:'Nombra mentalmente 5 cosas que puedes sentir (la sábana, la almohada), 4 sonidos que escuchas, 3 cosas que podrías tocar, 2 olores y 1 cosa que agradeces. Este ejercicio de anclaje sensorial ayuda a salir del bucle de pensamientos ansiosos y facilita el regreso al sueño.'
+  },
+  {
+    id:'r3', cat:'estres', icon:'📓',
+    titulo:'El poder de la preocupación programada',
+    texto:'Dedica 10 minutos por la tarde, lejos de la hora de dormir, para escribir tus preocupaciones del día. Cuando surjan de noche, recuérdate: "ya las anoté, las revisaré mañana en mi horario de preocupación". Con práctica, esto reduce la rumiación nocturna.'
+  },
+  {
+    id:'r4', cat:'nutricion', icon:'☕',
+    titulo:'Cafeína: la ventana de las 8 horas',
+    texto:'La cafeína puede permanecer activa en tu cuerpo hasta 8-10 horas. Si sueles despertarte de madrugada, intenta tu último café antes de la 1 PM y observa si tus despertares disminuyen en una o dos semanas.'
+  },
+  {
+    id:'r5', cat:'nutricion', icon:'🍽️',
+    titulo:'Cenas ligeras para un sueño continuo',
+    texto:'Las comidas pesadas o muy grasosas cerca de la hora de dormir pueden causar digestión lenta y despertares nocturnos. Prioriza cenas ligeras al menos 2-3 horas antes de acostarte, con proteína moderada y pocos azúcares simples.'
+  },
+  {
+    id:'r6', cat:'nutricion', icon:'🍵',
+    titulo:'Infusiones que ayudan (y las que no)',
+    texto:'Manzanilla, valeriana y pasiflora son infusiones tradicionalmente asociadas con la relajación antes de dormir. Evita el té verde o negro por la noche, ya que contienen cafeína aunque en menor cantidad que el café.'
+  },
+  {
+    id:'r7', cat:'ejercicio', icon:'🚶',
+    titulo:'Movimiento diario, no necesariamente intenso',
+    texto:'Caminar 20-30 minutos al día, idealmente con luz solar por la mañana, ayuda a regular tu ritmo circadiano. No necesitas ejercicio intenso: la constancia importa más que la intensidad para mejorar la calidad del sueño.'
+  },
+  {
+    id:'r8', cat:'ejercicio', icon:'🧎',
+    titulo:'Estiramientos suaves antes de dormir',
+    texto:'Una rutina corta de estiramientos suaves (cuello, espalda, piernas) ayuda a liberar tensión física acumulada durante el día. Evita ejercicio de alta intensidad en las 2 horas previas a dormir, ya que puede activar el sistema nervioso.'
+  },
+  {
+    id:'r9', cat:'ejercicio', icon:'🌤️',
+    titulo:'Luz solar matutina y tu reloj interno',
+    texto:'Exponerte a luz natural dentro de la primera hora después de despertar ayuda a sincronizar tu ritmo circadiano, lo que facilita sentir sueño a una hora consistente por la noche y reduce los despertares de madrugada.'
+  }
+];
+
+function cargarLeidos(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
+}
+function guardarLeidos(obj){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+}
+let leidos = cargarLeidos();
+let categoriaActiva = 'todos';
+
+function mostrarToast(msg){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+const nombresCategoria = { estres:'Manejo del estrés', nutricion:'Nutrición y sueño', ejercicio:'Ejercicio físico' };
+
+function renderizarRecursos(){
+  const cont = document.getElementById('recursosGrid');
+  cont.innerHTML = '';
+  const lista = recursos.filter(r => categoriaActiva === 'todos' || r.cat === categoriaActiva);
+
+  lista.forEach(r=>{
+    const isLeido = !!leidos[r.id];
+    const card = document.createElement('div');
+    card.className = 'recurso-card' + (isLeido ? ' leido' : '');
+    card.innerHTML = `
+      <div class="recurso-header">
+        <div class="titulo-wrap">
+          <div class="icon">${r.icon}</div>
+          <div>
+            <h3>${r.titulo}</h3>
+            <div class="categoria">${nombresCategoria[r.cat]}</div>
+          </div>
+        </div>
+        <div class="toggle">+</div>
+      </div>
+      <div class="recurso-body">
+        <p>${r.texto}</p>
+        <div class="recurso-footer">
+          <label class="marcar-leido">
+            <input type="checkbox" data-id="${r.id}" ${isLeido ? 'checked' : ''}>
+            Marcar como leído
+          </label>
+          <span class="badge-leido">✓ Leído</span>
+        </div>
+      </div>
+    `;
+    card.querySelector('.recurso-header').addEventListener('click', (e)=>{
+      card.classList.toggle('open');
+    });
+    card.querySelector('.marcar-leido input').addEventListener('click', (e)=> e.stopPropagation());
+    card.querySelector('.marcar-leido input').addEventListener('change', (e)=>{
+      const id = e.target.dataset.id;
+      leidos[id] = e.target.checked;
+      guardarLeidos(leidos);
+      card.classList.toggle('leido', e.target.checked);
+      actualizarProgreso();
+      mostrarToast(e.target.checked ? '¡Guardado en tus favoritos!' : 'Marcado como no leído');
+    });
+    cont.appendChild(card);
+  });
+}
+
+function actualizarProgreso(){
+  const total = recursos.length;
+  const leidosCount = recursos.filter(r => leidos[r.id]).length;
+  document.getElementById('progresoTexto').textContent = `${leidosCount} de ${total} leídos`;
+  document.getElementById('progresoFill').style.width = `${(leidosCount/total)*100}%`;
+}
+
+document.getElementById('filtros').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.filtro-btn');
+  if(!btn) return;
+  document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  categoriaActiva = btn.dataset.cat;
+  renderizarRecursos();
+});
+
+renderizarRecursos();
+actualizarProgreso();
+</script>
+</body>
+</html>

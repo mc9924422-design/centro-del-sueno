@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro del Sueño — Cómo dormir sin despertarte a las 3 AM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220; --card:#141F33; --cta:#A99BFF; --cta-hover:#B8ADFF;
+    --accent:#8EB7D9; --heading:#F7F4ED; --body:#AEB8C8; --success:#91B9A5;
+    --linea:rgba(247,244,237,.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:'Fraunces',serif; font-weight:600; color:var(--heading); letter-spacing:-.01em; }
+  a{ color:inherit; }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 20px; }
+
+  nav.topnav{ background:#070C16; border-bottom:1px solid var(--linea); position:sticky; top:0; z-index:50; }
+  .navbar{ max-width:900px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .navbar .logo{ font-family:'Fraunces',serif; color:var(--heading); font-size:1.05rem; }
+  .tabs{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs a{ text-decoration:none; font-size:.86rem; font-weight:500; color:var(--body); padding:8px 14px; border-radius:8px; border:1px solid transparent; }
+  .tabs a:hover{ color:var(--heading); }
+  .tabs a.active{ background:var(--card); color:var(--accent); border-color:var(--linea); }
+
+  header.hero{ padding:44px 0 30px; text-align:center; }
+  header.hero .icon{ font-size:2.2rem; margin-bottom:10px; }
+  header.hero h1{ font-size:1.9rem; margin-bottom:8px; }
+  header.hero p{ color:var(--body); max-width:520px; margin:0 auto; }
+
+  .instrucciones{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:26px 28px; margin:0 0 40px; display:flex; flex-direction:column; gap:14px; }
+  .instrucciones h2{ font-size:1rem; font-family:'Inter',sans-serif; font-weight:700; color:var(--heading); }
+  .instrucciones p{ font-size:.94rem; color:var(--body); }
+
+  section{ margin-bottom:44px; }
+  section > h2{ font-size:1.35rem; margin-bottom:18px; }
+
+  .form-card{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:28px; }
+  .form-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:20px; }
+  @media(max-width:760px){ .form-row{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px){ .form-row{ grid-template-columns:1fr; } }
+  .field label{ display:block; font-size:.85rem; color:var(--body); margin-bottom:8px; }
+  .field input, .field select, .field textarea{
+    width:100%; background:var(--bg); border:1px solid var(--linea); border-radius:8px;
+    color:var(--heading); padding:11px 14px; font-family:inherit; font-size:.92rem;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--cta); }
+  .field.full{ grid-column:1/-1; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--cta); color:#191231; font-weight:600; font-size:.98rem;
+    padding:14px 28px; border-radius:10px; border:none; cursor:pointer;
+    text-decoration:none; box-shadow:0 5px 0 #7A6DD1; transition:transform .1s ease, background .1s ease;
+  }
+  .btn:hover{ background:var(--cta-hover); transform:translateY(-2px); }
+  .btn:active{ transform:translateY(2px); box-shadow:0 2px 0 #7A6DD1; }
+  .btn.secundario{ background:transparent; color:var(--body); box-shadow:none; border:1px solid var(--linea); }
+  .btn.secundario:hover{ color:var(--heading); background:var(--bg); }
+  .btns-row{ display:flex; gap:12px; flex-wrap:wrap; }
+
+  .error-msg{ color:#E39B9B; font-size:.85rem; margin-top:10px; display:none; }
+  .error-msg.show{ display:block; }
+
+  /* Resumen */
+  .resumen-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media(max-width:640px){ .resumen-grid{ grid-template-columns:1fr; } }
+  .resumen-card{ background:var(--card); border:1px solid var(--linea); border-radius:14px; padding:20px; text-align:center; }
+  .resumen-card .num{ font-family:'Fraunces',serif; font-size:1.9rem; color:var(--accent); }
+  .resumen-card .label{ font-size:.85rem; color:var(--body); margin-top:4px; }
+
+  /* Gráfico */
+  .chart-card{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:28px; }
+  .chart-bars{ display:flex; align-items:flex-end; gap:10px; height:180px; margin-bottom:10px; }
+  .chart-bar{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; }
+  .chart-bar .bar{ width:100%; max-width:40px; background:linear-gradient(180deg, var(--cta-hover), var(--cta)); border-radius:6px 6px 0 0; }
+  .chart-bar .val{ font-size:.72rem; color:var(--body); margin-bottom:4px; }
+  .chart-bar .fecha{ font-size:.7rem; color:var(--body); margin-top:8px; text-align:center; }
+
+  /* Tabla de registros */
+  .tabla-wrap{ overflow-x:auto; }
+  table{ width:100%; border-collapse:collapse; font-size:.88rem; }
+  thead th{ text-align:left; color:var(--body); font-weight:600; padding:10px 12px; border-bottom:1px solid var(--linea); white-space:nowrap; }
+  tbody td{ padding:10px 12px; border-bottom:1px solid var(--linea); color:var(--body); white-space:nowrap; }
+  tbody tr:hover{ background:rgba(255,255,255,.02); }
+  .del-btn{ background:none; border:none; color:#E39B9B; cursor:pointer; font-size:.85rem; }
+  .empty-state{ text-align:center; color:var(--body); padding:30px; font-size:.92rem; }
+
+  .tips-list{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .tips-list li{ background:var(--card); border:1px solid var(--linea); border-radius:12px; padding:16px 18px; display:flex; gap:12px; align-items:flex-start; font-size:.94rem; color:var(--body); }
+  .tips-list .dot{ flex:0 0 8px; width:8px; height:8px; border-radius:50%; background:var(--success); margin-top:7px; }
+
+  .toast{ position:fixed; bottom:24px; left:50%; transform:translate(-50%,20px); background:var(--success); color:#0B1220; font-weight:600; font-size:.92rem; padding:12px 22px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:100; }
+  .toast.show{ opacity:1; transform:translate(-50%,0); }
+
+  footer{ background:#070C16; border-top:1px solid var(--linea); text-align:center; padding:30px 20px; color:var(--body); font-size:.85rem; margin-top:60px; }
+  footer a{ color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navbar">
+    <div class="logo">🌙 Cómo Dormir Sin Despertarte a las 3 AM</div>
+    <div class="tabs">
+      <a href="herramienta-1-respiracion.html">1. Respiración</a>
+      <a href="herramienta-2-rutina.html">2. Rutina</a>
+      <a href="herramienta-3-registro.html" class="active">3. Registro</a>
+      <a href="herramienta-4-autoayuda.html">4. Autoayuda</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="icon">📊</div>
+    <h1>Registro del Sueño Interactivo</h1>
+    <p>Rastrea tus noches y descubre patrones que afectan tu descanso.</p>
+  </header>
+
+  <div class="instrucciones">
+    <h2>🎯 QUÉ HACE ESTA HERRAMIENTA</h2>
+    <p>Te permite rastrear tu sueño y observar patrones que pueden afectar tu descanso.</p>
+    <h2>📝 CÓMO USARLA</h2>
+    <p>1. Ingresa tus horas de sueño cada día.<br>2. Revisa los patrones que se muestran semanalmente.<br>3. Usa la información para ajustar tus hábitos.</p>
+    <h2>✅ QUÉ VAS A OBTENER</h2>
+    <p>Una mejor comprensión de tus patrones de sueño y cómo mejorarlos.</p>
+  </div>
+
+  <section>
+    <h2>Registrar una noche</h2>
+    <div class="form-card">
+      <div class="form-row">
+        <div class="field">
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha">
+        </div>
+        <div class="field">
+          <label for="horaDormir">Hora de dormir</label>
+          <input type="time" id="horaDormir" value="23:00">
+        </div>
+        <div class="field">
+          <label for="horaDespertar">Hora de despertar</label>
+          <input type="time" id="horaDespertar" value="07:00">
+        </div>
+        <div class="field">
+          <label for="despertares">Veces que despertaste</label>
+          <input type="number" id="despertares" min="0" max="20" value="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field full">
+          <label for="calidad">Calidad del sueño: <span id="calidadVal">3</span>/5</label>
+          <input type="range" id="calidad" min="1" max="5" value="3">
+        </div>
+        <div class="field full">
+          <label for="notas">Notas (opcional)</label>
+          <textarea id="notas" rows="2" placeholder="Ej: me desperté ansioso a las 3 AM, usé la respiración 4-7-8..."></textarea>
+        </div>
+      </div>
+      <div class="btns-row">
+        <button class="btn" id="btnGuardar">Guardar registro</button>
+        <button class="btn secundario" id="btnExportar">⬇️ Exportar CSV</button>
+      </div>
+      <p class="error-msg" id="formError">Completa la fecha, hora de dormir y hora de despertar.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Resumen</h2>
+    <div class="resumen-grid">
+      <div class="resumen-card">
+        <div class="num" id="promedioHoras">0h</div>
+        <div class="label">Promedio de sueño</div>
+      </div>
+      <div class="resumen-card">
+        <div class="num" id="promedioCalidad">0</div>
+        <div class="label">Calidad promedio (1-5)</div>
+      </div>
+      <div class="resumen-card">
+        <div class="num" id="totalRegistros">0</div>
+        <div class="label">Noches registradas</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Patrón de las últimas noches</h2>
+    <div class="chart-card">
+      <div class="chart-bars" id="chartBars"></div>
+      <p style="font-size:.82rem; color:var(--body); text-align:center;" id="chartEmpty">Registra al menos una noche para ver tu gráfico.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Historial</h2>
+    <div class="form-card">
+      <div class="tabla-wrap">
+        <table>
+          <thead>
+            <tr><th>Fecha</th><th>Dormir</th><th>Despertar</th><th>Horas</th><th>Despertares</th><th>Calidad</th><th></th></tr>
+          </thead>
+          <tbody id="tablaBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="emptyState">Aún no tienes registros. Agrega tu primera noche arriba.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Sugerencias según tus patrones</h2>
+    <ul class="tips-list" id="sugerencias">
+      <li><span class="dot"></span>Registra al menos 5 noches para recibir sugerencias personalizadas.</li>
+    </ul>
+  </section>
+</div>
+
+<div class="toast" id="toast">¡Guardado!</div>
+
+<footer>
+  Creado con 💜 para tus mejores noches — <a href="https://www.instagram.com/digitalgrowthia/" target="_blank" rel="noopener">@digitalgrowthia</a>
+</footer>
+
+<script>
+const STORAGE_KEY = 'sleep_tool3_registro';
+
+function cargarRegistros(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }catch(e){ return []; }
+}
+function guardarRegistros(arr){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+let registros = cargarRegistros();
+
+function mostrarToast(msg){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+// Fecha por defecto: hoy
+document.getElementById('fecha').valueAsDate = new Date();
+
+document.getElementById('calidad').addEventListener('input', (e)=>{
+  document.getElementById('calidadVal').textContent = e.target.value;
+});
+
+function calcularHoras(horaDormir, horaDespertar){
+  const [h1,m1] = horaDormir.split(':').map(Number);
+  const [h2,m2] = horaDespertar.split(':').map(Number);
+  let inicio = h1*60+m1;
+  let fin = h2*60+m2;
+  if(fin <= inicio) fin += 1440; // cruza medianoche
+  return +((fin-inicio)/60).toFixed(1);
+}
+
+document.getElementById('btnGuardar').addEventListener('click', ()=>{
+  const fecha = document.getElementById('fecha').value;
+  const horaDormir = document.getElementById('horaDormir').value;
+  const horaDespertar = document.getElementById('horaDespertar').value;
+  const errorEl = document.getElementById('formError');
+
+  if(!fecha || !horaDormir || !horaDespertar){
+    errorEl.classList.add('show');
+    return;
+  }
+  errorEl.classList.remove('show');
+
+  const registro = {
+    fecha,
+    horaDormir,
+    horaDespertar,
+    horas: calcularHoras(horaDormir, horaDespertar),
+    despertares: parseInt(document.getElementById('despertares').value) || 0,
+    calidad: parseInt(document.getElementById('calidad').value),
+    notas: document.getElementById('notas').value.trim()
+  };
+
+  // Reemplaza si ya existe un registro de esa fecha
+  registros = registros.filter(r => r.fecha !== registro.fecha);
+  registros.push(registro);
+  registros.sort((a,b)=> new Date(a.fecha) - new Date(b.fecha));
+  guardarRegistros(registros);
+  renderizarTodo();
+  mostrarToast('¡Registro guardado!');
+  document.getElementById('notas').value = '';
+});
+
+function eliminarRegistro(fecha){
+  registros = registros.filter(r => r.fecha !== fecha);
+  guardarRegistros(registros);
+  renderizarTodo();
+  mostrarToast('Registro eliminado');
+}
+
+function renderizarTabla(){
+  const tbody = document.getElementById('tablaBody');
+  const empty = document.getElementById('emptyState');
+  tbody.innerHTML = '';
+  if(registros.length === 0){
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  [...registros].reverse().forEach(r=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${formatFecha(r.fecha)}</td>
+      <td>${r.horaDormir}</td>
+      <td>${r.horaDespertar}</td>
+      <td>${r.horas}h</td>
+      <td>${r.despertares}</td>
+      <td>${'★'.repeat(r.calidad)}${'☆'.repeat(5-r.calidad)}</td>
+      <td><button class="del-btn" data-fecha="${r.fecha}">Eliminar</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('.del-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> eliminarRegistro(btn.dataset.fecha));
+  });
+}
+
+function formatFecha(f){
+  const [y,m,d] = f.split('-');
+  return `${d}/${m}`;
+}
+
+function renderizarResumen(){
+  const total = registros.length;
+  document.getElementById('totalRegistros').textContent = total;
+  if(total === 0){
+    document.getElementById('promedioHoras').textContent = '0h';
+    document.getElementById('promedioCalidad').textContent = '0';
+    return;
+  }
+  const promHoras = registros.reduce((a,r)=>a+r.horas,0)/total;
+  const promCalidad = registros.reduce((a,r)=>a+r.calidad,0)/total;
+  document.getElementById('promedioHoras').textContent = promHoras.toFixed(1)+'h';
+  document.getElementById('promedioCalidad').textContent = promCalidad.toFixed(1);
+}
+
+function renderizarGrafico(){
+  const cont = document.getElementById('chartBars');
+  const emptyMsg = document.getElementById('chartEmpty');
+  cont.innerHTML = '';
+  const ultimos = registros.slice(-7);
+  if(ultimos.length === 0){
+    emptyMsg.style.display = 'block';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+  const maxHoras = Math.max(...ultimos.map(r=>r.horas), 8);
+  ultimos.forEach(r=>{
+    const alturaPct = Math.max((r.horas / maxHoras) * 100, 4);
+    const bar = document.createElement('div');
+    bar.className = 'chart-bar';
+    bar.innerHTML = `
+      <div class="val">${r.horas}h</div>
+      <div class="bar" style="height:${alturaPct}%"></div>
+      <div class="fecha">${formatFecha(r.fecha)}</div>
+    `;
+    cont.appendChild(bar);
+  });
+}
+
+function renderizarSugerencias(){
+  const cont = document.getElementById('sugerencias');
+  if(registros.length < 3){
+    cont.innerHTML = '<li><span class="dot"></span>Registra al menos 3 noches para recibir sugerencias personalizadas.</li>';
+    return;
+  }
+  const sugerencias = [];
+  const promHoras = registros.reduce((a,r)=>a+r.horas,0)/registros.length;
+  const promDespertares = registros.reduce((a,r)=>a+r.despertares,0)/registros.length;
+  const promCalidad = registros.reduce((a,r)=>a+r.calidad,0)/registros.length;
+
+  if(promHoras < 7){
+    sugerencias.push('Estás durmiendo un promedio de ' + promHoras.toFixed(1) + ' horas. Intenta adelantar tu hora de dormir 30 minutos.');
+  }
+  if(promDespertares >= 2){
+    sugerencias.push('Te despiertas con frecuencia durante la noche. Prueba la Herramienta 1 (respiración) justo cuando esto ocurra.');
+  }
+  if(promCalidad < 3){
+    sugerencias.push('Tu calidad de sueño promedio es baja. Revisa tu rutina en la Herramienta 2 y ajusta los hábitos antes de dormir.');
+  }
+  if(sugerencias.length === 0){
+    sugerencias.push('Tus patrones de sueño se ven saludables. Sigue manteniendo tu rutina actual.');
+  }
+  cont.innerHTML = sugerencias.map(s => `<li><span class="dot"></span>${s}</li>`).join('');
+}
+
+function renderizarTodo(){
+  renderizarTabla();
+  renderizarResumen();
+  renderizarGrafico();
+  renderizarSugerencias();
+}
+
+document.getElementById('btnExportar').addEventListener('click', ()=>{
+  if(registros.length === 0){
+    mostrarToast('No hay registros para exportar');
+    return;
+  }
+  let csv = 'Fecha,Hora de dormir,Hora de despertar,Horas,Despertares,Calidad,Notas\n';
+  registros.forEach(r=>{
+    csv += `${r.fecha},${r.horaDormir},${r.horaDespertar},${r.horas},${r.despertares},${r.calidad},"${(r.notas||'').replace(/"/g,'""')}"\n`;
+  });
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'registro-de-sueno.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('Archivo CSV exportado');
+});
+
+renderizarTodo();
+</script>
+</body>
+</html>
