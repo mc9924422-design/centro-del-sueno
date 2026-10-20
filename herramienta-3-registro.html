@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro del Sueño — Cómo dormir sin despertarte a las 3 AM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220; --card:#141F33; --cta:#A99BFF; --cta-hover:#B8ADFF;
+    --accent:#8EB7D9; --heading:#F7F4ED; --body:#AEB8C8; --success:#91B9A5;
+    --linea:rgba(247,244,237,.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:'Fraunces',serif; font-weight:600; color:var(--heading); letter-spacing:-.01em; }
+  a{ color:inherit; }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 20px; }
+
+  nav.topnav{ background:#070C16; border-bottom:1px solid var(--linea); position:sticky; top:0; z-index:50; }
+  .navbar{ max-width:900px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .navbar .logo{ font-family:'Fraunces',serif; color:var(--heading); font-size:1.05rem; }
+  .tabs{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs a{ text-decoration:none; font-size:.86rem; font-weight:500; color:var(--body); padding:8px 14px; border-radius:8px; border:1px solid transparent; }
+  .tabs a:hover{ color:var(--heading); }
+  .tabs a.active{ background:var(--card); color:var(--accent); border-color:var(--linea); }
+
+  header.hero{ padding:44px 0 30px; text-align:center; }
+  header.hero .icon{ font-size:2.2rem; margin-bottom:10px; }
+  header.hero h1{ font-size:1.9rem; margin-bottom:8px; }
+  header.hero p{ color:var(--body); max-width:520px; margin:0 auto; }
+
+  .instrucciones{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:26px 28px; margin:0 0 40px; display:flex; flex-direction:column; gap:14px; }
+  .instrucciones h2{ font-size:1rem; font-family:'Inter',sans-serif; font-weight:700; color:var(--heading); }
+  .instrucciones p{ font-size:.94rem; color:var(--body); }
+
+  section{ margin-bottom:44px; }
+  section > h2{ font-size:1.35rem; margin-bottom:18px; }
+  .sub{ font-size:.88rem; color:var(--body); margin:-10px 0 18px; }
+
+  .form-card{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:28px; }
+  @media(max-width:480px){ .form-card{ padding:20px; } }
+  .form-grupo{ font-family:'Inter',sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); margin:4px 0 12px; }
+  .form-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:22px; }
+  @media(max-width:760px){ .form-row{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px){ .form-row{ grid-template-columns:1fr; } }
+  .field label{ display:block; font-size:.85rem; color:var(--body); margin-bottom:8px; }
+  .field input, .field textarea{
+    width:100%; background:var(--bg); border:1px solid var(--linea); border-radius:8px;
+    color:var(--heading); padding:11px 14px; font-family:inherit; font-size:.92rem; resize:vertical;
+  }
+  .field input[type=range]{ padding:0; border:none; background:transparent; accent-color:var(--cta); }
+  .field textarea::placeholder{ color:rgba(174,184,200,.55); }
+  .field input:focus, .field textarea:focus{ outline:none; border-color:var(--cta); }
+  .field.full{ grid-column:1/-1; }
+  .field-hint{ font-size:.78rem; opacity:.8; margin-top:5px; }
+
+  .calculo-vivo{ background:var(--bg); border:1px solid var(--linea); border-radius:10px; padding:12px 16px; font-size:.88rem; margin-bottom:22px; }
+  .calculo-vivo strong{ color:var(--heading); }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--cta); color:#191231; font-weight:600; font-size:.98rem;
+    padding:14px 28px; border-radius:10px; border:none; cursor:pointer;
+    text-decoration:none; box-shadow:0 5px 0 #7A6DD1; transition:transform .1s ease, background .1s ease;
+  }
+  .btn:hover{ background:var(--cta-hover); transform:translateY(-2px); }
+  .btn:active{ transform:translateY(2px); box-shadow:0 2px 0 #7A6DD1; }
+  .btn.secundario{ background:transparent; color:var(--body); box-shadow:none; border:1px solid var(--linea); }
+  .btn.secundario:hover{ color:var(--heading); background:var(--bg); }
+  .btns-row{ display:flex; gap:12px; flex-wrap:wrap; }
+
+  .error-msg{ color:#E39B9B; font-size:.85rem; margin-top:10px; display:none; }
+  .error-msg.show{ display:block; }
+
+  /* Resumen */
+  .resumen-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:14px; }
+  .resumen-card{ background:var(--card); border:1px solid var(--linea); border-radius:14px; padding:18px 14px; text-align:center; }
+  .resumen-card .num{ font-family:'Fraunces',serif; font-size:1.7rem; color:var(--accent); }
+  .resumen-card .label{ font-size:.82rem; color:var(--body); margin-top:4px; line-height:1.35; }
+
+  /* Gráfico */
+  .chart-card{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:28px; }
+  .chart-bars{ display:flex; align-items:flex-end; gap:10px; height:190px; margin-bottom:10px; }
+  .chart-bar{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; min-width:0; }
+  .chart-bar .col{ width:100%; max-width:42px; position:relative; display:flex; flex-direction:column; justify-content:flex-end;
+    background:rgba(169,155,255,.18); border-radius:6px 6px 0 0; }
+  .chart-bar .dormido{ width:100%; background:linear-gradient(180deg, var(--cta-hover), var(--cta)); border-radius:6px 6px 0 0; }
+  .chart-bar .val{ font-size:.72rem; color:var(--body); margin-bottom:4px; white-space:nowrap; }
+  .chart-bar .fecha{ font-size:.7rem; color:var(--body); margin-top:8px; text-align:center; }
+  .leyenda{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; font-size:.78rem; margin-top:6px; }
+  .leyenda span{ display:inline-flex; align-items:center; gap:6px; }
+  .leyenda i{ width:12px; height:12px; border-radius:3px; display:inline-block; }
+
+  /* Tabla de registros */
+  .tabla-wrap{ overflow-x:auto; }
+  table{ width:100%; border-collapse:collapse; font-size:.86rem; }
+  thead th{ text-align:left; color:var(--body); font-weight:600; padding:10px 10px; border-bottom:1px solid var(--linea); white-space:nowrap; }
+  tbody td{ padding:10px 10px; border-bottom:1px solid var(--linea); color:var(--body); white-space:nowrap; }
+  tbody td.nota{ white-space:normal; min-width:160px; max-width:260px; font-size:.82rem; opacity:.85; }
+  tbody tr:hover{ background:rgba(255,255,255,.02); }
+  .del-btn{ background:none; border:none; color:#E39B9B; cursor:pointer; font-size:.85rem; }
+  .empty-state{ text-align:center; color:var(--body); padding:30px; font-size:.92rem; }
+
+  .tips-list{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .tips-list li{ background:var(--card); border:1px solid var(--linea); border-radius:12px; padding:16px 18px; display:flex; gap:12px; align-items:flex-start; font-size:.94rem; color:var(--body); }
+  .tips-list li strong{ color:var(--heading); font-weight:600; }
+  .tips-list .dot{ flex:0 0 8px; width:8px; height:8px; border-radius:50%; background:var(--success); margin-top:7px; }
+  .tips-list li.progreso{ border-color:rgba(145,185,165,.45); }
+
+  .toast{ position:fixed; bottom:24px; left:50%; transform:translate(-50%,20px); background:var(--success); color:#0B1220; font-weight:600; font-size:.92rem; padding:12px 22px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:100; }
+  .toast.show{ opacity:1; transform:translate(-50%,0); }
+
+  footer{ background:#070C16; border-top:1px solid var(--linea); text-align:center; padding:30px 20px; color:var(--body); font-size:.85rem; margin-top:60px; }
+  footer a{ color:var(--accent); text-decoration:none; }
+  .descargo{ font-size:.78rem; opacity:.75; max-width:620px; margin:0 auto 12px; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navbar">
+    <div class="logo">🌙 Cómo Dormir Sin Despertarte a las 3 AM</div>
+    <div class="tabs">
+      <a href="herramienta-1-respiracion.html">1. Respiración</a>
+      <a href="herramienta-2-rutina.html">2. Rutina</a>
+      <a href="herramienta-3-registro.html" class="active">3. Registro</a>
+      <a href="herramienta-4-autoayuda.html">4. Autoayuda</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="icon">📊</div>
+    <h1>Diario de Sueño Interactivo</h1>
+    <p>Mide cuánto duermes de verdad y cuánto tardas en volver a dormirte cuando te despiertas.</p>
+  </header>
+
+  <div class="instrucciones">
+    <h2>🎯 QUÉ HACE ESTA HERRAMIENTA</h2>
+    <p>Calcula tus horas reales de sueño (no solo el tiempo que pasas en la cama), tu eficiencia de sueño y cuánto tardas en volver a dormirte después de despertarte en la noche.</p>
+    <h2>📝 CÓMO USARLA</h2>
+    <p>1. Cada mañana, apenas te levantes, registra la noche anterior. Usa números aproximados: no mires el reloj durante la noche para "medir", solo estima al despertar.<br>2. Después de 3 noches verás tus primeras sugerencias; con 7 o más, tu evolución.<br>3. Usa lo que descubras para ajustar tu rutina (Herramienta 2).</p>
+    <h2>✅ QUÉ VAS A OBTENER</h2>
+    <p>Una imagen clara de tu sueño y la prueba de tu avance noche a noche.</p>
+  </div>
+
+  <section>
+    <h2>Registrar la noche anterior</h2>
+    <div class="form-card">
+      <p class="form-grupo">La noche</p>
+      <div class="form-row">
+        <div class="field">
+          <label for="fecha">Fecha (la mañana en que despertaste)</label>
+          <input type="date" id="fecha">
+        </div>
+        <div class="field">
+          <label for="horaAcostarse">¿A qué hora te acostaste?</label>
+          <input type="time" id="horaAcostarse" value="23:00">
+        </div>
+        <div class="field">
+          <label for="horaLevantarse">¿A qué hora te levantaste de la cama?</label>
+          <input type="time" id="horaLevantarse" value="07:00">
+        </div>
+      </div>
+
+      <p class="form-grupo">Tiempo despierto</p>
+      <div class="form-row">
+        <div class="field">
+          <label for="latencia">Minutos para quedarte dormido</label>
+          <input type="number" id="latencia" min="0" max="600" step="5" value="15" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="despertares">Veces que despertaste</label>
+          <input type="number" id="despertares" min="0" max="20" value="0" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="despiertoNoche">Minutos despierto en total durante la noche</label>
+          <input type="number" id="despiertoNoche" min="0" max="900" step="5" value="0" inputmode="numeric">
+          <p class="field-hint">Suma todos los despertares, aproximado.</p>
+        </div>
+      </div>
+
+      <p class="form-grupo">Tu despertar más largo (opcional)</p>
+      <div class="form-row">
+        <div class="field">
+          <label for="horaDespertarLargo">¿Más o menos a qué hora fue?</label>
+          <input type="time" id="horaDespertarLargo">
+        </div>
+        <div class="field">
+          <label for="volverDormir">Minutos para volver a dormirte</label>
+          <input type="number" id="volverDormir" min="0" max="600" step="5" inputmode="numeric" placeholder="Ej: 20">
+        </div>
+        <div class="field">
+          <label for="calidad">Calidad del sueño: <span id="calidadVal">3</span>/5</label>
+          <input type="range" id="calidad" min="1" max="5" value="3">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field full">
+          <label for="notas">Notas (opcional)</label>
+          <textarea id="notas" rows="2" placeholder="Ej: me desperté ansioso, usé la respiración 4-7-8, tomé café a las 4 PM..."></textarea>
+        </div>
+      </div>
+
+      <div class="calculo-vivo" id="calculoVivo"></div>
+
+      <div class="btns-row">
+        <button class="btn" id="btnGuardar">Guardar registro</button>
+        <button class="btn secundario" id="btnExportar">⬇️ Exportar CSV</button>
+      </div>
+      <p class="error-msg" id="formError"></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Resumen</h2>
+    <div class="resumen-grid">
+      <div class="resumen-card">
+        <div class="num" id="promedioDormido">—</div>
+        <div class="label">Horas dormidas (promedio)</div>
+      </div>
+      <div class="resumen-card">
+        <div class="num" id="promedioEficiencia">—</div>
+        <div class="label">Eficiencia del sueño</div>
+      </div>
+      <div class="resumen-card">
+        <div class="num" id="promedioVolver">—</div>
+        <div class="label">Minutos para volver a dormirte</div>
+      </div>
+      <div class="resumen-card">
+        <div class="num" id="promedioCalidad">—</div>
+        <div class="label">Calidad promedio (1-5)</div>
+      </div>
+      <div class="resumen-card">
+        <div class="num" id="totalRegistros">0</div>
+        <div class="label">Noches registradas</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tus últimas 7 noches</h2>
+    <p class="sub">La barra completa es el tiempo en la cama; la parte de color, lo que dormiste de verdad. Cuanto más llena, mejor.</p>
+    <div class="chart-card">
+      <div class="chart-bars" id="chartBars"></div>
+      <p style="font-size:.82rem; color:var(--body); text-align:center;" id="chartEmpty">Registra al menos una noche para ver tu gráfico.</p>
+      <div class="leyenda" id="leyenda" style="display:none;">
+        <span><i style="background:var(--cta)"></i>Dormido</span>
+        <span><i style="background:rgba(169,155,255,.18)"></i>Despierto en la cama</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Sugerencias según tus patrones</h2>
+    <ul class="tips-list" id="sugerencias"></ul>
+  </section>
+
+  <section>
+    <h2>Historial</h2>
+    <div class="form-card">
+      <div class="tabla-wrap">
+        <table>
+          <thead>
+            <tr><th>Fecha</th><th>En cama</th><th>Dormido</th><th>Eficiencia</th><th>Despertares</th><th>Volver a dormir</th><th>Calidad</th><th>Notas</th><th></th></tr>
+          </thead>
+          <tbody id="tablaBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="emptyState">Aún no tienes registros. Agrega tu primera noche arriba.</div>
+      <p class="field-hint" style="margin-top:12px;">Si guardas otra vez la misma fecha, se reemplaza el registro anterior. Tus datos se guardan solo en este dispositivo y navegador: exporta el CSV de vez en cuando como respaldo.</p>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast">¡Guardado!</div>
+
+<footer>
+  <p class="descargo">Esta herramienta es de autoayuda y no sustituye la atención médica. Si el insomnio dura más de 3 meses, roncas fuerte, tienes mucho sueño durante el día o te sientes triste la mayor parte del tiempo, consulta a un profesional de la salud.</p>
+  Creado con 💜 para tus mejores noches — <a href="https://www.instagram.com/digitalgrowthia/" target="_blank" rel="noopener">@digitalgrowthia</a>
+</footer>
+
+<script>
+const STORAGE_KEY = 'sleep_tool3_registro';
+const MIN_SUGERENCIAS = 3;
+
+// ===== Utilidades =====
+function fechaLocalISO(d = new Date()){
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${dd}`;
+}
+function aMinutos(horaStr){
+  const [h,m] = horaStr.split(':').map(Number);
+  return h*60 + m;
+}
+function minutosEnCama(acostarse, levantarse){
+  let ini = aMinutos(acostarse), fin = aMinutos(levantarse);
+  if(fin <= ini) fin += 1440; // cruza medianoche
+  return fin - ini;
+}
+function fmtHoras(min){
+  if(min == null || isNaN(min)) return '—';
+  const h = Math.floor(min/60), m = Math.round(min%60);
+  return m ? `${h}h ${String(m).padStart(2,'0')}` : `${h}h`;
+}
+function numero(id){
+  const v = document.getElementById(id).value;
+  if(v === '' || v == null) return null;
+  const n = parseInt(v, 10);
+  return isNaN(n) || n < 0 ? null : n;
+}
+function promedio(arr){
+  return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+}
+function formatFecha(f){
+  const [y,m,d] = f.split('-');
+  return `${d}/${m}`;
+}
+function mostrarToast(msg){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(mostrarToast._t);
+  mostrarToast._t = setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+// ===== Datos =====
+// Convierte registros de la versión anterior (horaDormir/horaDespertar/horas) al formato nuevo
+function normalizar(r){
+  if(r.minCama != null) return r;
+  const acostarse = r.horaAcostarse || r.horaDormir;
+  const levantarse = r.horaLevantarse || r.horaDespertar;
+  return calcular({
+    fecha: r.fecha,
+    horaAcostarse: acostarse,
+    horaLevantarse: levantarse,
+    latencia: r.latencia || 0,
+    despertares: r.despertares || 0,
+    despiertoNoche: r.despiertoNoche || 0,
+    horaDespertarLargo: r.horaDespertarLargo || '',
+    volverDormir: r.volverDormir ?? null,
+    calidad: r.calidad || 3,
+    notas: r.notas || ''
+  });
+}
+function calcular(r){
+  r.minCama = minutosEnCama(r.horaAcostarse, r.horaLevantarse);
+  r.minDormido = Math.max(r.minCama - (r.latencia||0) - (r.despiertoNoche||0), 0);
+  r.eficiencia = r.minCama ? Math.round(r.minDormido / r.minCama * 100) : 0;
+  return r;
+}
+function cargarRegistros(){
+  try{
+    const arr = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    return arr.filter(r => r && r.fecha).map(normalizar);
+  }catch(e){ return []; }
+}
+function guardarRegistros(arr){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }catch(e){
+    mostrarToast('No se pudo guardar en este navegador');
+  }
+}
+let registros = cargarRegistros();
+registros.sort((a,b)=> a.fecha.localeCompare(b.fecha));
+
+// ===== Formulario =====
+document.getElementById('fecha').value = fechaLocalISO();
+
+document.getElementById('calidad').addEventListener('input', (e)=>{
+  document.getElementById('calidadVal').textContent = e.target.value;
+});
+
+function leerFormulario(){
+  return {
+    fecha: document.getElementById('fecha').value,
+    horaAcostarse: document.getElementById('horaAcostarse').value,
+    horaLevantarse: document.getElementById('horaLevantarse').value,
+    latencia: numero('latencia') ?? 0,
+    despertares: numero('despertares') ?? 0,
+    despiertoNoche: numero('despiertoNoche') ?? 0,
+    horaDespertarLargo: document.getElementById('horaDespertarLargo').value,
+    volverDormir: numero('volverDormir'),
+    calidad: parseInt(document.getElementById('calidad').value, 10),
+    notas: document.getElementById('notas').value.trim()
+  };
+}
+
+function actualizarCalculoVivo(){
+  const el = document.getElementById('calculoVivo');
+  const f = leerFormulario();
+  if(!f.horaAcostarse || !f.horaLevantarse){ el.textContent = ''; return; }
+  const r = calcular({...f});
+  el.innerHTML = `Tiempo en la cama: <strong>${fmtHoras(r.minCama)}</strong> · Dormiste aprox.: <strong>${fmtHoras(r.minDormido)}</strong> · Eficiencia: <strong>${r.eficiencia}%</strong>`;
+}
+['horaAcostarse','horaLevantarse','latencia','despiertoNoche'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', actualizarCalculoVivo);
+});
+
+document.getElementById('btnGuardar').addEventListener('click', ()=>{
+  const errorEl = document.getElementById('formError');
+  const f = leerFormulario();
+
+  let error = '';
+  if(!f.fecha || !f.horaAcostarse || !f.horaLevantarse){
+    error = 'Completa la fecha, la hora en que te acostaste y la hora en que te levantaste.';
+  }else{
+    const cama = minutosEnCama(f.horaAcostarse, f.horaLevantarse);
+    if(f.latencia + f.despiertoNoche >= cama){
+      error = 'El tiempo despierto es mayor que el tiempo en la cama. Revisa los minutos.';
+    }
+  }
+  if(error){
+    errorEl.textContent = error;
+    errorEl.classList.add('show');
+    return;
+  }
+  errorEl.classList.remove('show');
+
+  const registro = calcular(f);
+  registros = registros.filter(r => r.fecha !== registro.fecha);
+  registros.push(registro);
+  registros.sort((a,b)=> a.fecha.localeCompare(b.fecha));
+  guardarRegistros(registros);
+  renderizarTodo();
+  mostrarToast('¡Registro guardado!');
+  document.getElementById('notas').value = '';
+  document.getElementById('horaDespertarLargo').value = '';
+  document.getElementById('volverDormir').value = '';
+});
+
+function eliminarRegistro(fecha){
+  if(!confirm('¿Eliminar el registro del ' + formatFecha(fecha) + '?')) return;
+  registros = registros.filter(r => r.fecha !== fecha);
+  guardarRegistros(registros);
+  renderizarTodo();
+  mostrarToast('Registro eliminado');
+}
+
+// ===== Render =====
+function td(texto, clase){
+  const c = document.createElement('td');
+  c.textContent = texto;
+  if(clase) c.className = clase;
+  return c;
+}
+
+function renderizarTabla(){
+  const tbody = document.getElementById('tablaBody');
+  const empty = document.getElementById('emptyState');
+  tbody.innerHTML = '';
+  if(registros.length === 0){
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  [...registros].reverse().forEach(r=>{
+    const tr = document.createElement('tr');
+    tr.appendChild(td(formatFecha(r.fecha)));
+    tr.appendChild(td(fmtHoras(r.minCama)));
+    tr.appendChild(td(fmtHoras(r.minDormido)));
+    tr.appendChild(td(r.eficiencia + '%'));
+    tr.appendChild(td(String(r.despertares)));
+    tr.appendChild(td(r.volverDormir != null ? r.volverDormir + ' min' + (r.horaDespertarLargo ? ' (' + r.horaDespertarLargo + ')' : '') : '—'));
+    tr.appendChild(td('★'.repeat(r.calidad) + '☆'.repeat(5 - r.calidad)));
+    tr.appendChild(td(r.notas || '', 'nota'));
+    const accion = document.createElement('td');
+    const btn = document.createElement('button');
+    btn.className = 'del-btn';
+    btn.textContent = 'Eliminar';
+    btn.addEventListener('click', ()=> eliminarRegistro(r.fecha));
+    accion.appendChild(btn);
+    tr.appendChild(accion);
+    tbody.appendChild(tr);
+  });
+}
+
+function stats(lista){
+  const volver = lista.map(r=>r.volverDormir).filter(v => v != null);
+  return {
+    dormido: promedio(lista.map(r=>r.minDormido)),
+    cama: promedio(lista.map(r=>r.minCama)),
+    eficiencia: promedio(lista.map(r=>r.eficiencia)),
+    latencia: promedio(lista.map(r=>r.latencia)),
+    despierto: promedio(lista.map(r=>r.despiertoNoche)),
+    despertares: promedio(lista.map(r=>r.despertares)),
+    calidad: promedio(lista.map(r=>r.calidad)),
+    volver: promedio(volver),
+    nVolver: volver.length
+  };
+}
+
+function renderizarResumen(){
+  const total = registros.length;
+  document.getElementById('totalRegistros').textContent = total;
+  const s = stats(registros);
+  document.getElementById('promedioDormido').textContent = total ? fmtHoras(s.dormido) : '—';
+  document.getElementById('promedioEficiencia').textContent = total ? Math.round(s.eficiencia) + '%' : '—';
+  document.getElementById('promedioVolver').textContent = s.volver != null ? Math.round(s.volver) + ' min' : '—';
+  document.getElementById('promedioCalidad').textContent = total ? s.calidad.toFixed(1) : '—';
+}
+
+function renderizarGrafico(){
+  const cont = document.getElementById('chartBars');
+  const emptyMsg = document.getElementById('chartEmpty');
+  const leyenda = document.getElementById('leyenda');
+  cont.innerHTML = '';
+  const ultimos = registros.slice(-7);
+  if(ultimos.length === 0){
+    emptyMsg.style.display = 'block';
+    leyenda.style.display = 'none';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+  leyenda.style.display = 'flex';
+  const maxCama = Math.max(...ultimos.map(r=>r.minCama), 9*60);
+  ultimos.forEach(r=>{
+    const bar = document.createElement('div');
+    bar.className = 'chart-bar';
+    const altoCama = Math.max(r.minCama / maxCama * 100, 4);
+    const pctDormido = r.minCama ? r.minDormido / r.minCama * 100 : 0;
+    bar.innerHTML = `
+      <div class="val">${fmtHoras(r.minDormido)}</div>
+      <div class="col" style="height:${altoCama}%" title="En cama: ${fmtHoras(r.minCama)} · Dormido: ${fmtHoras(r.minDormido)}">
+        <div class="dormido" style="height:${pctDormido}%"></div>
+      </div>
+      <div class="fecha">${formatFecha(r.fecha)}</div>
+    `;
+    cont.appendChild(bar);
+  });
+}
+
+function renderizarSugerencias(){
+  const cont = document.getElementById('sugerencias');
+  const total = registros.length;
+  if(total < MIN_SUGERENCIAS){
+    const faltan = MIN_SUGERENCIAS - total;
+    cont.innerHTML = `<li><span class="dot"></span><span>Registra ${faltan} noche${faltan>1?'s':''} más para recibir sugerencias personalizadas.</span></li>`;
+    return;
+  }
+
+  const recientes = registros.slice(-7);
+  const s = stats(recientes);
+  const items = [];
+
+  // Progreso: compara primeras noches vs. últimas
+  if(total >= 7){
+    const primeras = stats(registros.slice(0, 3));
+    const ultimas = stats(registros.slice(-3));
+    if(primeras.nVolver && ultimas.nVolver && ultimas.volver < primeras.volver - 5){
+      items.push({clase:'progreso', html:`<strong>¡Vas avanzando!</strong> Al empezar tardabas unos ${Math.round(primeras.volver)} minutos en volver a dormirte; en tus últimas noches, unos ${Math.round(ultimas.volver)}.`});
+    }
+    if(ultimas.eficiencia > primeras.eficiencia + 5){
+      items.push({clase:'progreso', html:`<strong>Tu sueño está más consolidado:</strong> tu eficiencia subió de ${Math.round(primeras.eficiencia)}% a ${Math.round(ultimas.eficiencia)}%. Pasas menos tiempo despierto en la cama.`});
+    }
+  }
+
+  // Mucho tiempo despierto en la cama
+  if(s.eficiencia < 85){
+    items.push({html:`<strong>Pasas bastante tiempo despierto en la cama</strong> (eficiencia de ${Math.round(s.eficiencia)}%). No te acuestes más temprano para "recuperar" sueño: eso suele sumar más tiempo despierto. Acuéstate solo cuando tengas sueño y mantén fija tu hora de levantarte.`});
+  }
+
+  // Volver a dormir
+  if(s.volver != null && s.volver > 20){
+    items.push({html:`<strong>Tardas unos ${Math.round(s.volver)} minutos en volver a dormirte.</strong> Cuando te despiertes, no mires la hora y usa la respiración (Herramienta 1). Si a los 20 minutos sigues despierto, levántate a otro espacio con luz tenue y vuelve a la cama solo cuando tengas sueño.`});
+  }
+
+  // Despertares frecuentes
+  if(s.despertares >= 2){
+    items.push({html:`<strong>Te despiertas varias veces por noche.</strong> Usa tus notas para buscar un patrón: ¿alcohol, cena tarde, líquidos antes de dormir, ruido o calor en el cuarto?`});
+  }
+
+  // Tarda en dormirse
+  if(s.latencia > 30){
+    items.push({html:`<strong>Tardas más de 30 minutos en quedarte dormido.</strong> Agrega a tu rutina escribir tus preocupaciones antes de acostarte (Herramienta 2) y no te metas a la cama hasta tener sueño.`});
+  }
+
+  // Calidad baja
+  if(s.calidad < 3){
+    items.push({html:`<strong>Tu calidad de sueño promedio es baja.</strong> Revisa tu rutina en la Herramienta 2 y compara en tus notas las noches buenas con las malas.`});
+  }
+
+  // Duerme eficiente pero poco
+  if(s.eficiencia >= 90 && s.dormido < 6*60){
+    items.push({html:`<strong>Duermes de forma eficiente, pero pocas horas.</strong> Prueba acostarte 15 minutos antes durante una semana y observa si tu eficiencia se mantiene.`});
+  }
+
+  // Irregularidad de horario de levantarse
+  const levantarse = recientes.map(r=>aMinutos(r.horaLevantarse));
+  if(levantarse.length >= 3 && Math.max(...levantarse) - Math.min(...levantarse) > 90){
+    items.push({html:`<strong>Tu hora de levantarte cambia mucho entre días.</strong> Fijarla, incluso el fin de semana, es una de las cosas que más ayuda a dormir de corrido.`});
+  }
+
+  if(items.length === 0){
+    items.push({html:'<strong>Tus patrones de sueño se ven saludables.</strong> Sigue con tu rutina y tu horario fijo.'});
+  }
+
+  cont.innerHTML = items.map(i => `<li class="${i.clase||''}"><span class="dot"></span><span>${i.html}</span></li>`).join('');
+}
+
+function renderizarTodo(){
+  renderizarTabla();
+  renderizarResumen();
+  renderizarGrafico();
+  renderizarSugerencias();
+  actualizarCalculoVivo();
+}
+
+// ===== Exportar =====
+document.getElementById('btnExportar').addEventListener('click', ()=>{
+  if(registros.length === 0){
+    mostrarToast('No hay registros para exportar');
+    return;
+  }
+  const esc = v => `"${String(v ?? '').replace(/"/g,'""')}"`;
+  let csv = 'Fecha,Hora acostarse,Hora levantarse,Min para dormirse,Despertares,Min despierto en la noche,Hora despertar largo,Min para volver a dormir,Horas en cama,Horas dormidas,Eficiencia %,Calidad,Notas\n';
+  registros.forEach(r=>{
+    csv += [
+      r.fecha, r.horaAcostarse, r.horaLevantarse, r.latencia, r.despertares, r.despiertoNoche,
+      r.horaDespertarLargo || '', r.volverDormir ?? '',
+      (r.minCama/60).toFixed(1), (r.minDormido/60).toFixed(1), r.eficiencia, r.calidad
+    ].map(esc).join(',') + ',' + esc(r.notas) + '\n';
+  });
+  const blob = new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'diario-de-sueno.csv';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=> URL.revokeObjectURL(url), 1000);
+  mostrarToast('Archivo CSV exportado');
+});
+
+renderizarTodo();
+</script>
+</body>
+</html>
