@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Respiración y Relajación — Cómo dormir sin despertarte a las 3 AM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220; --card:#141F33; --cta:#A99BFF; --cta-hover:#B8ADFF;
+    --accent:#8EB7D9; --heading:#F7F4ED; --body:#AEB8C8; --success:#91B9A5;
+    --linea:rgba(247,244,237,.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:'Fraunces',serif; font-weight:600; color:var(--heading); letter-spacing:-.01em; }
+  a{ color:inherit; }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 20px; }
+
+  /* NAV */
+  nav.topnav{ background:#070C16; border-bottom:1px solid var(--linea); position:sticky; top:0; z-index:50; }
+  .navbar{ max-width:900px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .navbar .logo{ font-family:'Fraunces',serif; color:var(--heading); font-size:1.05rem; }
+  .tabs{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs a{ text-decoration:none; font-size:.86rem; font-weight:500; color:var(--body); padding:8px 14px; border-radius:8px; border:1px solid transparent; }
+  .tabs a:hover{ color:var(--heading); }
+  .tabs a.active{ background:var(--card); color:var(--accent); border-color:var(--linea); }
+
+  header.hero{ padding:44px 0 30px; text-align:center; }
+  header.hero .icon{ font-size:2.2rem; margin-bottom:10px; }
+  header.hero h1{ font-size:1.9rem; margin-bottom:8px; }
+  header.hero p{ color:var(--body); max-width:520px; margin:0 auto; }
+
+  /* MODO 3 AM - tarjeta de acceso */
+  .modo3-card{
+    background:linear-gradient(135deg, #1B1530, #141F33); border:1px solid rgba(169,155,255,.35);
+    border-radius:16px; padding:24px 26px; margin-bottom:28px;
+    display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
+  }
+  .modo3-card h2{ font-size:1.2rem; margin-bottom:4px; }
+  .modo3-card p{ font-size:.92rem; max-width:480px; }
+
+  /* INSTRUCCIONES */
+  .instrucciones{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:26px 28px; margin:0 0 40px; display:flex; flex-direction:column; gap:14px; }
+  .instrucciones h2{ font-size:1rem; font-family:'Inter',sans-serif; font-weight:700; color:var(--heading); }
+  .instrucciones p{ font-size:.94rem; color:var(--body); }
+
+  section{ margin-bottom:44px; }
+  section > h2{ font-size:1.35rem; margin-bottom:18px; }
+
+  /* Ejercicios */
+  .ejercicios-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media(max-width:720px){ .ejercicios-grid{ grid-template-columns:1fr; } }
+  .ejercicio-card{
+    background:var(--card); border:1px solid var(--linea); border-radius:14px; padding:20px;
+    cursor:pointer; text-align:left; color:var(--body); font-family:inherit; font-size:.95rem;
+  }
+  .ejercicio-card:focus-visible{ outline:2px solid var(--cta); outline-offset:2px; }
+  .ejercicio-card h3{ font-size:1.05rem; margin-bottom:6px; color:var(--heading); }
+  .ejercicio-card .patron{ color:var(--accent); font-size:.85rem; font-weight:600; margin-bottom:8px; }
+  .ejercicio-card .cuando{ font-size:.8rem; color:var(--success); margin-top:8px; }
+  .ejercicio-card.selected{ border-color:var(--cta); box-shadow:0 0 0 1px var(--cta); }
+
+  /* Práctica */
+  .practica{ background:var(--card); border:1px solid var(--linea); border-radius:18px; padding:36px 24px; text-align:center; display:none; }
+  .practica.visible{ display:block; }
+  .practica h3{ font-size:1.2rem; margin-bottom:6px; }
+  .practica .patron-label{ color:var(--accent); font-size:.9rem; margin-bottom:26px; }
+  .circle-wrap{ display:flex; justify-content:center; align-items:center; height:200px; margin-bottom:22px; }
+  .breathing-circle{
+    width:150px; height:150px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #B8ADFF, #7A6DD1);
+    display:flex; align-items:center; justify-content:center;
+    color:#191231; font-weight:600; font-size:1.05rem;
+    transform:scale(.7); transition-property:transform; transition-timing-function:ease-in-out; transition-duration:.6s;
+  }
+  .breathing-circle.grande{ transform:scale(1.15); }
+  .contador{ font-family:'Fraunces',serif; font-size:2.4rem; color:var(--heading); margin-bottom:6px; min-height:3.2rem; }
+  .contador-label{ color:var(--body); font-size:.92rem; margin-bottom:6px; }
+  .recomendacion{ font-size:.82rem; opacity:.8; margin-bottom:24px; }
+  .practica-btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .aviso-seguridad{ font-size:.8rem; opacity:.75; margin-top:22px; max-width:520px; margin-left:auto; margin-right:auto; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--cta); color:#191231; font-weight:600; font-size:.98rem;
+    padding:14px 28px; border-radius:10px; border:none; cursor:pointer;
+    text-decoration:none; box-shadow:0 5px 0 #7A6DD1; transition:transform .1s ease, background .1s ease;
+  }
+  .btn:hover{ background:var(--cta-hover); transform:translateY(-2px); }
+  .btn:active{ transform:translateY(2px); box-shadow:0 2px 0 #7A6DD1; }
+  .btn.secundario{ background:transparent; color:var(--body); box-shadow:none; border:1px solid var(--linea); }
+  .btn.secundario:hover{ color:var(--heading); background:var(--bg); }
+
+  /* Timer libre */
+  .timer-box{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:28px; text-align:center; }
+  .timer-box .desc{ font-size:.9rem; margin-bottom:18px; }
+  .timer-select{ display:flex; gap:10px; justify-content:center; margin-bottom:20px; flex-wrap:wrap; }
+  .timer-select button{ background:var(--bg); border:1px solid var(--linea); color:var(--body); padding:10px 18px; border-radius:8px; cursor:pointer; font-size:.92rem; font-family:inherit; }
+  .timer-select button.active{ border-color:var(--cta); color:var(--cta); }
+  .timer-display{ font-family:'Fraunces',serif; font-size:3rem; color:var(--heading); margin-bottom:18px; }
+
+  /* Tips */
+  .tips-list{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .tips-list li{ background:var(--card); border:1px solid var(--linea); border-radius:12px; padding:16px 18px; display:flex; gap:12px; align-items:flex-start; font-size:.94rem; color:var(--body); }
+  .tips-list li strong{ color:var(--heading); font-weight:600; }
+  .tips-list .dot{ flex:0 0 8px; width:8px; height:8px; border-radius:50%; background:var(--success); margin-top:7px; }
+
+  /* Progreso */
+  .progreso-box{ background:var(--card); border:1px solid var(--linea); border-radius:14px; padding:18px 22px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  .progreso-box .num{ font-family:'Fraunces',serif; font-size:1.6rem; color:var(--success); }
+
+  .toast{ position:fixed; bottom:24px; left:50%; transform:translate(-50%,20px); background:var(--success); color:#0B1220; font-weight:600; font-size:.92rem; padding:12px 22px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:100; }
+  .toast.show{ opacity:1; transform:translate(-50%,0); }
+
+  footer{ background:#070C16; border-top:1px solid var(--linea); text-align:center; padding:30px 20px; color:var(--body); font-size:.85rem; margin-top:60px; }
+  footer a{ color:var(--accent); text-decoration:none; }
+  .descargo{ font-size:.78rem; opacity:.75; max-width:620px; margin:0 auto 12px; }
+
+  /* ===== MODO 3 AM (pantalla casi negra) ===== */
+  .noche{
+    position:fixed; inset:0; z-index:200; background:#000; color:#6E5646;
+    display:none; flex-direction:column; align-items:center; justify-content:center;
+    padding:32px 24px; text-align:center;
+  }
+  .noche.visible{ display:flex; }
+  .noche h2{ font-family:'Fraunces',serif; color:#7D6150; font-size:1.5rem; font-weight:400; margin-bottom:14px; }
+  .noche p{ font-size:1.05rem; line-height:1.7; max-width:420px; margin:0 auto 14px; }
+  .noche .paso{ display:none; flex-direction:column; align-items:center; }
+  .noche .paso.visible{ display:flex; }
+  .noche-btn{
+    background:transparent; border:1px solid #3A2C23; color:#7D6150; font-family:inherit;
+    font-size:1rem; padding:14px 26px; border-radius:12px; cursor:pointer; margin:6px;
+  }
+  .noche-btn.principal{ border-color:#5A4334; }
+  .noche-circulo{
+    width:170px; height:170px; border-radius:50%; margin:10px auto 26px;
+    background:radial-gradient(circle at 40% 35%, rgba(120,80,55,.45), rgba(60,38,26,.25));
+    display:flex; align-items:center; justify-content:center; color:#8A6A56; font-size:1.1rem;
+    transform:scale(.7); transition:transform 4s ease-in-out;
+  }
+  .noche-circulo.grande{ transform:scale(1.15); }
+  .noche-salir{ position:absolute; top:16px; right:16px; }
+  .noche-pie{ position:absolute; bottom:22px; left:0; right:0; display:flex; justify-content:center; flex-wrap:wrap; }
+  .noche-link{ background:none; border:none; color:#5A4334; font-family:inherit; font-size:.9rem; text-decoration:underline; cursor:pointer; padding:8px; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navbar">
+    <div class="logo">🌙 Cómo Dormir Sin Despertarte a las 3 AM</div>
+    <div class="tabs">
+      <a href="herramienta-1-respiracion.html" class="active">1. Respiración</a>
+      <a href="herramienta-2-rutina.html">2. Rutina</a>
+      <a href="herramienta-3-registro.html">3. Registro</a>
+      <a href="herramienta-4-autoayuda.html">4. Autoayuda</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="icon">🌬️</div>
+    <h1>Guía de Técnicas de Relajación y Respiración</h1>
+    <p>Ejercicios guiados para calmar la mente antes de dormir y cuando te despiertas de madrugada.</p>
+  </header>
+
+  <div class="modo3-card">
+    <div>
+      <h2>🌙 ¿Te despertaste y no puedes volver a dormir?</h2>
+      <p>Abre el Modo 3 AM: la pantalla se pone casi negra para no despertarte más y te guía paso a paso, sin mostrarte la hora.</p>
+    </div>
+    <button class="btn" id="btnModo3">Abrir Modo 3 AM</button>
+  </div>
+
+  <div class="instrucciones">
+    <h2>🎯 QUÉ HACE ESTA HERRAMIENTA</h2>
+    <p>Te guía con ejercicios de respiración lenta que ayudan a bajar la activación del cuerpo y a soltar los pensamientos que no te dejan dormir.</p>
+    <h2>📝 CÓMO USARLA</h2>
+    <p>1. Practica un ejercicio cada noche antes de dormir, aunque estés bien: así lo dominas cuando lo necesites.<br>2. Sigue el círculo: crece al inhalar y se encoge al exhalar.<br>3. Si te despiertas de madrugada, usa el Modo 3 AM.</p>
+    <h2>✅ QUÉ VAS A OBTENER</h2>
+    <p>Una técnica que ya conoces de memoria para relajarte cuando más lo necesitas.</p>
+  </div>
+
+  <section>
+    <h2>Elige tu ejercicio</h2>
+    <div class="ejercicios-grid" id="ejerciciosGrid">
+      <button class="ejercicio-card" data-nombre="Respiración lenta 4-6" data-inhale="4" data-hold="0" data-exhale="6" data-ciclos="10">
+        <h3>Respiración lenta 4-6</h3>
+        <div class="patron">Inhala 4 · Exhala 6</div>
+        <p>La más sencilla: exhalar más largo que inhalar ayuda a calmar el cuerpo. Sin retener el aire.</p>
+        <div class="cuando">Ideal para empezar y para la madrugada</div>
+      </button>
+      <button class="ejercicio-card" data-nombre="Respiración 4-7-8" data-inhale="4" data-hold="7" data-exhale="8" data-ciclos="4">
+        <h3>Respiración 4-7-8</h3>
+        <div class="patron">Inhala 4 · Sostén 7 · Exhala 8</div>
+        <p>Muy usada para relajarse antes de dormir. Si sostener 7 segundos te incomoda, usa la 4-6.</p>
+        <div class="cuando">Empieza con 4 ciclos</div>
+      </button>
+      <button class="ejercicio-card" data-nombre="Respiración en Caja" data-inhale="4" data-hold="4" data-exhale="4" data-hold2="4" data-ciclos="6">
+        <h3>Respiración en Caja</h3>
+        <div class="patron">Inhala 4 · Sostén 4 · Exhala 4 · Sostén 4</div>
+        <p>Un ritmo parejo que ayuda a concentrarte en la respiración cuando la mente está acelerada.</p>
+        <div class="cuando">Útil antes de acostarte</div>
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <div class="practica" id="practicaBox">
+      <h3 id="practicaNombre">Ejercicio</h3>
+      <div class="patron-label" id="practicaPatron">Patrón</div>
+      <div class="circle-wrap"><div class="breathing-circle" id="circle">Listo</div></div>
+      <div class="contador" id="contador"></div>
+      <div class="contador-label" id="ciclosLabel">Ciclos completados: 0</div>
+      <div class="recomendacion" id="recomendacion"></div>
+      <div class="practica-btns">
+        <button class="btn" id="btnIniciar">Iniciar práctica</button>
+        <button class="btn secundario" id="btnDetener">Terminar</button>
+      </div>
+      <p class="aviso-seguridad">Respira de forma suave, sin forzar. Si te mareas o te falta el aire, vuelve a tu respiración normal. Si tienes una condición respiratoria o cardíaca, consulta antes con tu médico los ejercicios que retienen el aire.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Temporizador de relajación libre</h2>
+    <div class="timer-box">
+      <p class="desc">Para respirar a tu ritmo o relajarte en silencio antes de dormir.</p>
+      <div class="timer-select">
+        <button data-min="3">3 min</button>
+        <button data-min="5" class="active">5 min</button>
+        <button data-min="10">10 min</button>
+        <button data-min="15">15 min</button>
+      </div>
+      <div class="timer-display" id="timerDisplay">05:00</div>
+      <div class="practica-btns">
+        <button class="btn" id="btnTimerStart">Empezar</button>
+        <button class="btn secundario" id="btnTimerReset">Reiniciar</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Consejos para que la respiración funcione mejor</h2>
+    <ul class="tips-list">
+      <li><span class="dot"></span><span><strong>Practica también en noches buenas.</strong> Una técnica que ya dominas funciona mucho mejor a las 3 AM que una que intentas por primera vez.</span></li>
+      <li><span class="dot"></span><span><strong>No mires el reloj</strong> si te despiertas: calcular cuánto te queda por dormir aumenta la ansiedad.</span></li>
+      <li><span class="dot"></span><span><strong>El objetivo es relajarte, no obligarte a dormir.</strong> Cuanto más te esfuerzas por dormir, más difícil se vuelve. Deja que el sueño llegue solo.</span></li>
+      <li><span class="dot"></span><span><strong>Si pasan unos 20 minutos y sigues despierto, levántate.</strong> Ve a otro espacio con luz tenue, haz algo tranquilo y vuelve a la cama cuando tengas sueño.</span></li>
+      <li><span class="dot"></span><span><strong>Mantén tu habitación fresca y oscura.</strong> Una temperatura un poco fresca suele ayudar a dormir de corrido.</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="progreso-box">
+      <div>
+        <div style="font-size:.88rem; color:var(--body); margin-bottom:4px;">Sesiones de relajación completadas</div>
+        <div class="num" id="totalSesiones">0</div>
+      </div>
+      <button class="btn secundario" id="btnReset">Reiniciar contador</button>
+    </div>
+  </section>
+</div>
+
+<!-- ===== MODO 3 AM ===== -->
+<div class="noche" id="noche" role="dialog" aria-modal="true" aria-label="Modo 3 AM">
+  <button class="noche-btn noche-salir" id="nocheSalir">Salir</button>
+
+  <div class="paso visible" id="nochePaso1">
+    <h2>Estás bien.</h2>
+    <p>Despertarse de noche es normal y le pasa a casi todo el mundo.</p>
+    <p>No mires la hora. No importa qué hora es.</p>
+    <p>Vamos a respirar despacio, sin intentar dormir. Solo descansar.</p>
+    <button class="noche-btn principal" id="nocheEmpezar">Empezar a respirar</button>
+  </div>
+
+  <div class="paso" id="nochePaso2">
+    <div class="noche-circulo" id="nocheCirculo">Inhala</div>
+    <p id="nocheGuia">Sigue el círculo. Inhala por la nariz… exhala lento por la boca.</p>
+  </div>
+
+  <div class="paso" id="nochePaso3">
+    <h2>Muy bien.</h2>
+    <p>Ahora deja el celular boca abajo, lejos de ti, y sigue respirando así, con los ojos cerrados.</p>
+    <p>Si llega un pensamiento, no pelees con él. Déjalo pasar y vuelve a la respiración.</p>
+    <div>
+      <button class="noche-btn principal" id="nocheDejar">Dejar el celular</button>
+      <button class="noche-btn" id="nocheSeguir">Seguir respirando aquí</button>
+    </div>
+  </div>
+
+  <div class="paso" id="nochePaso4">
+    <h2>Está bien levantarte.</h2>
+    <p>Si llevas un buen rato despierto, quedarte dando vueltas en la cama lo empeora.</p>
+    <p>Ve a otro espacio con luz tenue. Haz algo tranquilo: leer en papel, respirar, estirarte suave. Nada de pantallas brillantes.</p>
+    <p>Vuelve a la cama solo cuando sientas sueño. Mañana levántate a tu hora de siempre.</p>
+    <button class="noche-btn principal" id="nocheEntendido">Entendido</button>
+  </div>
+
+  <div class="noche-pie">
+    <button class="noche-link" id="nocheLlevoRato">Llevo un buen rato despierto</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">¡Guardado!</div>
+
+<footer>
+  <p class="descargo">Esta herramienta es de autoayuda y no sustituye la atención médica. Si el insomnio dura más de 3 meses, roncas fuerte, tienes mucho sueño durante el día o te sientes triste la mayor parte del tiempo, consulta a un profesional de la salud.</p>
+  Creado con 💜 para tus mejores noches — <a href="https://www.instagram.com/digitalgrowthia/" target="_blank" rel="noopener">@digitalgrowthia</a>
+</footer>
+
+<script>
+// ===== Almacenamiento local =====
+const STORAGE_KEY = 'sleep_tool1_respiracion';
+
+function cargarDatos(){
+  try{
+    const d = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return (d && typeof d.totalSesiones === 'number') ? d : { totalSesiones: 0 };
+  }catch(e){ return { totalSesiones: 0 }; }
+}
+function guardarDatos(data){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }catch(e){}
+}
+let datos = cargarDatos();
+
+function mostrarToast(msg){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(mostrarToast._t);
+  mostrarToast._t = setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+function sumarSesion(msg){
+  datos.totalSesiones += 1;
+  guardarDatos(datos);
+  actualizarProgresoUI();
+  if(msg) mostrarToast(msg);
+}
+function actualizarProgresoUI(){
+  document.getElementById('totalSesiones').textContent = datos.totalSesiones;
+}
+actualizarProgresoUI();
+
+document.getElementById('btnReset').addEventListener('click', ()=>{
+  if(confirm('¿Seguro que quieres reiniciar el contador de sesiones?')){
+    datos = { totalSesiones: 0 };
+    guardarDatos(datos);
+    actualizarProgresoUI();
+    mostrarToast('Contador reiniciado');
+  }
+});
+
+// ===== Mantener la pantalla encendida mientras se practica =====
+let wakeLock = null;
+async function pedirPantallaEncendida(){
+  try{
+    if('wakeLock' in navigator && !wakeLock){
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', ()=>{ wakeLock = null; });
+    }
+  }catch(e){ wakeLock = null; }
+}
+function liberarPantalla(){
+  try{ if(wakeLock) wakeLock.release(); }catch(e){}
+  wakeLock = null;
+}
+
+// ===== Selección de ejercicio =====
+let ejercicioActivo = null;
+const cards = document.querySelectorAll('.ejercicio-card');
+
+function textoPatron(ej){
+  const partes = [`Inhala ${ej.inhale}`];
+  if(ej.hold) partes.push(`Sostén ${ej.hold}`);
+  partes.push(`Exhala ${ej.exhale}`);
+  if(ej.hold2) partes.push(`Sostén ${ej.hold2}`);
+  return partes.join(' · ');
+}
+
+cards.forEach(card=>{
+  card.addEventListener('click', ()=>{
+    if(practicando) terminarPractica(false);
+    cards.forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');
+    ejercicioActivo = {
+      nombre: card.dataset.nombre,
+      inhale: parseInt(card.dataset.inhale, 10),
+      hold: parseInt(card.dataset.hold || '0', 10),
+      exhale: parseInt(card.dataset.exhale, 10),
+      hold2: parseInt(card.dataset.hold2 || '0', 10),
+      ciclos: parseInt(card.dataset.ciclos || '6', 10)
+    };
+    document.getElementById('practicaNombre').textContent = ejercicioActivo.nombre;
+    document.getElementById('practicaPatron').textContent = textoPatron(ejercicioActivo);
+    document.getElementById('recomendacion').textContent = `Recomendado: ${ejercicioActivo.ciclos} ciclos`;
+    const box = document.getElementById('practicaBox');
+    box.classList.add('visible');
+    if(box.scrollIntoView) box.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+});
+
+// ===== Ciclo de respiración guiada =====
+let cicloTimeout = null;
+let cicloIntervalo = null;
+let ciclosCompletados = 0;
+let practicando = false;
+
+function ponerFase(circle, texto, grande, segundos){
+  // La animación dura exactamente lo que dura la fase
+  circle.style.transitionDuration = segundos + 's';
+  circle.classList.toggle('grande', grande);
+  circle.textContent = texto;
+}
+
+function resetCirculo(){
+  const circle = document.getElementById('circle');
+  circle.style.transitionDuration = '.6s';
+  circle.classList.remove('grande');
+  circle.textContent = 'Listo';
+  document.getElementById('contador').textContent = '';
+}
+
+function correrCiclo(){
+  const circle = document.getElementById('circle');
+  const contador = document.getElementById('contador');
+  const ej = ejercicioActivo;
+  // Cada fase define si el círculo termina grande (pulmones llenos) o pequeño (vacíos)
+  const fases = [{texto:'Inhala', dur: ej.inhale, grande:true, anim:ej.inhale}];
+  if(ej.hold) fases.push({texto:'Sostén', dur: ej.hold, grande:true, anim:.3});
+  fases.push({texto:'Exhala', dur: ej.exhale, grande:false, anim:ej.exhale});
+  if(ej.hold2) fases.push({texto:'Sostén', dur: ej.hold2, grande:false, anim:.3});
+
+  let i = 0;
+  function siguienteFase(){
+    if(!practicando) return;
+    if(i >= fases.length){
+      i = 0;
+      ciclosCompletados++;
+      document.getElementById('ciclosLabel').textContent = `Ciclos completados: ${ciclosCompletados}`;
+      if(ciclosCompletados === ej.ciclos){
+        mostrarToast(`¡${ej.ciclos} ciclos! Puedes seguir o terminar.`);
+      }
+    }
+    const fase = fases[i];
+    ponerFase(circle, fase.texto, fase.grande, fase.anim);
+    let restante = fase.dur;
+    contador.textContent = restante;
+    clearInterval(cicloIntervalo);
+    cicloIntervalo = setInterval(()=>{
+      restante--;
+      if(restante > 0) contador.textContent = restante;
+      else clearInterval(cicloIntervalo);
+    }, 1000);
+    cicloTimeout = setTimeout(()=>{ i++; siguienteFase(); }, fase.dur * 1000);
+  }
+  siguienteFase();
+}
+
+function terminarPractica(guardar){
+  const habiaCiclos = ciclosCompletados;
+  practicando = false;
+  clearTimeout(cicloTimeout);
+  clearInterval(cicloIntervalo);
+  resetCirculo();
+  liberarPantalla();
+  ciclosCompletados = 0;
+  document.getElementById('ciclosLabel').textContent = 'Ciclos completados: 0';
+  document.getElementById('btnIniciar').textContent = 'Iniciar práctica';
+  if(guardar){
+    if(habiaCiclos >= 1) sumarSesion(`¡Sesión guardada! ${habiaCiclos} ciclo${habiaCiclos>1?'s':''}.`);
+    else mostrarToast('Completa al menos un ciclo para contar la sesión');
+  }
+}
+
+document.getElementById('btnIniciar').addEventListener('click', ()=>{
+  if(!ejercicioActivo){ mostrarToast('Selecciona un ejercicio primero'); return; }
+  if(practicando) return;
+  practicando = true;
+  ciclosCompletados = 0;
+  document.getElementById('btnIniciar').textContent = 'Practicando…';
+  pedirPantallaEncendida();
+  correrCiclo();
+});
+document.getElementById('btnDetener').addEventListener('click', ()=>{
+  if(!practicando){ resetCirculo(); return; }
+  terminarPractica(true);
+});
+
+// ===== Temporizador libre =====
+let minutosSeleccionados = 5;
+let timerInterval = null;
+let timerFin = null;           // momento en que termina (ms)
+let segundosRestantes = minutosSeleccionados * 60;
+
+function formatearTiempo(seg){
+  const m = String(Math.floor(seg/60)).padStart(2,'0');
+  const s = String(seg%60).padStart(2,'0');
+  return `${m}:${s}`;
+}
+function actualizarTimerDisplay(){
+  document.getElementById('timerDisplay').textContent = formatearTiempo(segundosRestantes);
+}
+function pausarTimer(){
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerFin = null;
+  document.getElementById('btnTimerStart').textContent = segundosRestantes < minutosSeleccionados*60 ? 'Continuar' : 'Empezar';
+  liberarPantalla();
+}
+function reiniciarTimer(){
+  pausarTimer();
+  segundosRestantes = minutosSeleccionados * 60;
+  actualizarTimerDisplay();
+  document.getElementById('btnTimerStart').textContent = 'Empezar';
+}
+actualizarTimerDisplay();
+
+document.querySelectorAll('.timer-select button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.timer-select button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    minutosSeleccionados = parseInt(btn.dataset.min, 10);
+    reiniciarTimer();
+  });
+});
+
+document.getElementById('btnTimerStart').addEventListener('click', ()=>{
+  if(timerInterval){ pausarTimer(); return; }
+  timerFin = Date.now() + segundosRestantes * 1000;
+  document.getElementById('btnTimerStart').textContent = 'Pausar';
+  pedirPantallaEncendida();
+  timerInterval = setInterval(()=>{
+    // Se calcula con la hora real para que no se atrase si el navegador ahorra batería
+    segundosRestantes = Math.max(0, Math.round((timerFin - Date.now())/1000));
+    actualizarTimerDisplay();
+    if(segundosRestantes <= 0){
+      try{ if(navigator.vibrate) navigator.vibrate(200); }catch(e){}
+      reiniciarTimer();
+      sumarSesion('¡Tiempo de relajación completado!');
+    }
+  }, 250);
+});
+document.getElementById('btnTimerReset').addEventListener('click', reiniciarTimer);
+
+// ===== MODO 3 AM =====
+const noche = document.getElementById('noche');
+const CICLOS_NOCHE = 10;     // ~100 segundos de respiración guiada
+let nocheTimeout = null;
+let nocheCiclos = 0;
+let nocheActiva = false;
+let nocheContada = false;
+
+function mostrarPasoNoche(n){
+  [1,2,3,4].forEach(i=> document.getElementById('nochePaso'+i).classList.toggle('visible', i===n));
+}
+
+function abrirNoche(){
+  if(practicando) terminarPractica(false);
+  noche.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+  nocheContada = false;
+  mostrarPasoNoche(1);
+  pedirPantallaEncendida();
+}
+function cerrarNoche(){
+  detenerRespiracionNoche();
+  noche.classList.remove('visible');
+  document.body.style.overflow = '';
+  liberarPantalla();
+}
+
+function respirarNoche(){
+  nocheActiva = true;
+  nocheCiclos = 0;
+  mostrarPasoNoche(2);
+  const circulo = document.getElementById('nocheCirculo');
+  const guia = document.getElementById('nocheGuia');
+  let inhalando = true;
+  function paso(){
+    if(!nocheActiva) return;
+    if(inhalando){
+      circulo.style.transitionDuration = '4s';
+      circulo.classList.add('grande');
+      circulo.textContent = 'Inhala';
+      nocheTimeout = setTimeout(()=>{ inhalando = false; paso(); }, 4000);
+    }else{
+      circulo.style.transitionDuration = '6s';
+      circulo.classList.remove('grande');
+      circulo.textContent = 'Exhala';
+      nocheTimeout = setTimeout(()=>{
+        inhalando = true;
+        nocheCiclos++;
+        if(nocheCiclos === 3) guia.textContent = 'Suelta los hombros y la mandíbula. Deja que el cuerpo pese sobre la cama.';
+        if(nocheCiclos === 6) guia.textContent = 'No tienes que dormirte ahora. Solo descansa y respira.';
+        if(nocheCiclos >= CICLOS_NOCHE){
+          detenerRespiracionNoche();
+          if(!nocheContada){ sumarSesion(); nocheContada = true; }
+          mostrarPasoNoche(3);
+          return;
+        }
+        paso();
+      }, 6000);
+    }
+  }
+  guia.textContent = 'Sigue el círculo. Inhala por la nariz… exhala lento por la boca.';
+  paso();
+}
+function detenerRespiracionNoche(){
+  nocheActiva = false;
+  clearTimeout(nocheTimeout);
+  const circulo = document.getElementById('nocheCirculo');
+  circulo.style.transitionDuration = '.3s';
+  circulo.classList.remove('grande');
+}
+
+document.getElementById('btnModo3').addEventListener('click', abrirNoche);
+document.getElementById('nocheSalir').addEventListener('click', cerrarNoche);
+document.getElementById('nocheEmpezar').addEventListener('click', respirarNoche);
+document.getElementById('nocheSeguir').addEventListener('click', respirarNoche);
+document.getElementById('nocheDejar').addEventListener('click', cerrarNoche);
+document.getElementById('nocheEntendido').addEventListener('click', cerrarNoche);
+document.getElementById('nocheLlevoRato').addEventListener('click', ()=>{
+  detenerRespiracionNoche();
+  mostrarPasoNoche(4);
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && noche.classList.contains('visible')) cerrarNoche();
+});
+// Si el usuario vuelve a la página, recupera la pantalla encendida
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState === 'visible' && (practicando || timerInterval || noche.classList.contains('visible'))){
+    pedirPantallaEncendida();
+  }
+});
+</script>
+</body>
+</html>
