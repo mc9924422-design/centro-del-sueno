@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herramientas de Autoayuda — Cómo dormir sin despertarte a las 3 AM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220; --card:#141F33; --cta:#A99BFF; --cta-hover:#B8ADFF;
+    --accent:#8EB7D9; --heading:#F7F4ED; --body:#AEB8C8; --success:#91B9A5;
+    --linea:rgba(247,244,237,.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:'Fraunces',serif; font-weight:600; color:var(--heading); letter-spacing:-.01em; }
+  a{ color:inherit; }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 20px; }
+
+  nav.topnav{ background:#070C16; border-bottom:1px solid var(--linea); position:sticky; top:0; z-index:50; }
+  .navbar{ max-width:900px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .navbar .logo{ font-family:'Fraunces',serif; color:var(--heading); font-size:1.05rem; }
+  .tabs{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs a{ text-decoration:none; font-size:.86rem; font-weight:500; color:var(--body); padding:8px 14px; border-radius:8px; border:1px solid transparent; }
+  .tabs a:hover{ color:var(--heading); }
+  .tabs a.active{ background:var(--card); color:var(--accent); border-color:var(--linea); }
+
+  header.hero{ padding:44px 0 30px; text-align:center; }
+  header.hero .icon{ font-size:2.2rem; margin-bottom:10px; }
+  header.hero h1{ font-size:1.9rem; margin-bottom:8px; }
+  header.hero p{ color:var(--body); max-width:520px; margin:0 auto; }
+
+  .instrucciones{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:26px 28px; margin:0 0 40px; display:flex; flex-direction:column; gap:14px; }
+  .instrucciones h2{ font-size:1rem; font-family:'Inter',sans-serif; font-weight:700; color:var(--heading); }
+  .instrucciones p{ font-size:.94rem; color:var(--body); }
+
+  section{ margin-bottom:44px; }
+  section > h2{ font-size:1.35rem; margin-bottom:18px; }
+
+  /* Filtros de categoría */
+  .filtros{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
+  .filtro-btn{ background:var(--card); border:1px solid var(--linea); color:var(--body); padding:8px 15px; border-radius:999px; cursor:pointer; font-size:.85rem; font-family:inherit; }
+  .filtro-btn:hover{ color:var(--heading); }
+  .filtro-btn.active{ background:var(--accent); color:#0B1220; border-color:var(--accent); font-weight:600; }
+
+  /* Recursos */
+  .recursos-grid{ display:flex; flex-direction:column; gap:14px; }
+  .recurso-card{ background:var(--card); border:1px solid var(--linea); border-radius:14px; overflow:hidden; }
+  .recurso-card.destacado{ border-color:rgba(169,155,255,.4); }
+  .recurso-header{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:20px 22px; cursor:pointer; background:none; border:none; text-align:left; font-family:inherit; color:inherit;
+  }
+  .recurso-header:focus-visible{ outline:2px solid var(--cta); outline-offset:-2px; }
+  .recurso-header .titulo-wrap{ display:flex; align-items:center; gap:14px; }
+  .recurso-header .icon{ font-size:1.4rem; flex:0 0 auto; }
+  .recurso-header .titulo{ display:block; font-family:'Fraunces',serif; font-weight:600; color:var(--heading); font-size:1.02rem; line-height:1.4; }
+  .recurso-header .categoria{ display:block; }
+  .recurso-header .categoria{ font-size:.78rem; color:var(--accent); margin-top:2px; }
+  .recurso-header .categoria .badge-leido{ color:var(--success); font-weight:600; margin-left:8px; display:none; }
+  .recurso-card.leido .badge-leido{ display:inline; }
+  .recurso-header .toggle{ color:var(--body); font-size:1.3rem; transition:transform .2s ease; flex:0 0 auto; line-height:1; }
+  .recurso-card.open .toggle{ transform:rotate(45deg); }
+  .recurso-body{ height:0; overflow:hidden; transition:height .3s ease; }
+  .recurso-inner{ padding:0 22px 20px; }
+  .recurso-inner p{ font-size:.93rem; color:var(--body); margin-bottom:10px; }
+  .recurso-inner ul{ margin:0 0 12px 18px; font-size:.93rem; }
+  .recurso-inner li{ margin-bottom:6px; }
+  .recurso-inner strong{ color:var(--heading); font-weight:600; }
+  .recurso-footer{ display:flex; align-items:center; justify-content:space-between; margin-top:12px; padding-top:12px; border-top:1px solid var(--linea); }
+  .marcar-leido{ display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--body); cursor:pointer; }
+  .marcar-leido input{ accent-color:var(--success); width:15px; height:15px; }
+
+  /* Progreso */
+  .progreso-box{ background:var(--card); border:1px solid var(--linea); border-radius:14px; padding:20px 22px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  .progreso-bar-track{ flex:1; min-width:160px; height:10px; background:var(--bg); border-radius:999px; overflow:hidden; }
+  .progreso-bar-fill{ height:100%; background:linear-gradient(90deg, var(--accent), var(--cta)); border-radius:999px; transition:width .3s ease; width:0%; }
+  .progreso-box .num{ font-family:'Fraunces',serif; color:var(--heading); font-size:1.1rem; white-space:nowrap; }
+
+  .toast{ position:fixed; bottom:24px; left:50%; transform:translate(-50%,20px); background:var(--success); color:#0B1220; font-weight:600; font-size:.92rem; padding:12px 22px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:100; }
+  .toast.show{ opacity:1; transform:translate(-50%,0); }
+
+  footer{ background:#070C16; border-top:1px solid var(--linea); text-align:center; padding:30px 20px; color:var(--body); font-size:.85rem; margin-top:60px; }
+  footer a{ color:var(--accent); text-decoration:none; }
+  .descargo{ font-size:.78rem; opacity:.75; max-width:620px; margin:0 auto 12px; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navbar">
+    <div class="logo">🌙 Cómo Dormir Sin Despertarte a las 3 AM</div>
+    <div class="tabs">
+      <a href="herramienta-1-respiracion.html">1. Respiración</a>
+      <a href="herramienta-2-rutina.html">2. Rutina</a>
+      <a href="herramienta-3-registro.html">3. Registro</a>
+      <a href="herramienta-4-autoayuda.html" class="active">4. Autoayuda</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="icon">💚</div>
+    <h1>Herramientas de Autoayuda</h1>
+    <p>Guías cortas y prácticas sobre qué hacer de madrugada, cómo manejar los pensamientos y qué hábitos cambian tu sueño.</p>
+  </header>
+
+  <div class="instrucciones">
+    <h2>🎯 QUÉ HACE ESTA HERRAMIENTA</h2>
+    <p>Reúne las estrategias que más ayudan con los despertares de madrugada, explicadas en pocas líneas y listas para aplicar.</p>
+    <h2>📝 CÓMO USARLA</h2>
+    <p>1. Empieza por la categoría "De madrugada": son las guías más importantes.<br>2. Lee una o dos guías por día y márcalas como leídas.<br>3. Elige una sola cosa para aplicar esta semana y revisa en tu Registro (Herramienta 3) si notas cambios.</p>
+    <h2>✅ QUÉ VAS A OBTENER</h2>
+    <p>Un plan claro de qué hacer cuando te despiertas y qué cambiar durante el día para despertarte menos.</p>
+  </div>
+
+  <section>
+    <div class="progreso-box">
+      <div class="num" id="progresoTexto">0 de 0 leídos</div>
+      <div class="progreso-bar-track"><div class="progreso-bar-fill" id="progresoFill"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Biblioteca de recursos</h2>
+    <div class="filtros" id="filtros">
+      <button class="filtro-btn active" data-cat="todos">Todos</button>
+      <button class="filtro-btn" data-cat="madrugada">De madrugada</button>
+      <button class="filtro-btn" data-cat="mente">Pensamientos y estrés</button>
+      <button class="filtro-btn" data-cat="habitos">Horarios y habitación</button>
+      <button class="filtro-btn" data-cat="nutricion">Alimentación</button>
+      <button class="filtro-btn" data-cat="ejercicio">Movimiento y luz</button>
+      <button class="filtro-btn" data-cat="ayuda">Cuándo consultar</button>
+    </div>
+    <div class="recursos-grid" id="recursosGrid"></div>
+  </section>
+</div>
+
+<div class="toast" id="toast">¡Guardado!</div>
+
+<footer>
+  <p class="descargo">Esta herramienta es de autoayuda y no sustituye la atención médica. Si el insomnio dura más de 3 meses, roncas fuerte, tienes mucho sueño durante el día o te sientes triste la mayor parte del tiempo, consulta a un profesional de la salud.</p>
+  Creado con 💜 para tus mejores noches — <a href="https://www.instagram.com/digitalgrowthia/" target="_blank" rel="noopener">@digitalgrowthia</a>
+</footer>
+
+<script>
+const STORAGE_KEY = 'sleep_tool4_autoayuda';
+
+// Contenido propio (HTML fijo escrito aquí, no viene del usuario)
+const recursos = [
+  // ===== DE MADRUGADA =====
+  {
+    id:'m1', cat:'madrugada', icon:'🌙', destacado:true,
+    titulo:'Qué hacer en los primeros minutos después de despertarte',
+    texto:`<p>Despertarse en la noche es normal: casi todos lo hacemos varias veces sin recordarlo. El problema empieza cuando el despertar se convierte en alerta. Estos pasos ayudan a que no pase:</p>
+    <ul>
+      <li><strong>No mires la hora.</strong> Saber que son las 3:12 activa cálculos ("solo me quedan 3 horas") y con ellos la ansiedad.</li>
+      <li><strong>No tomes el celular</strong> para revisar mensajes o redes. Si usas el Modo 3 AM de la Herramienta 1, déjalo boca abajo al terminar.</li>
+      <li><strong>Respira lento</strong>, exhalando más largo que al inhalar, y suelta hombros y mandíbula.</li>
+      <li><strong>No intentes dormirte a la fuerza.</strong> Proponte solo descansar. El sueño llega más fácil cuando dejas de perseguirlo.</li>
+    </ul>`
+  },
+  {
+    id:'m2', cat:'madrugada', icon:'⏳', destacado:true,
+    titulo:'La regla de los 20 minutos',
+    texto:`<p>Si sientes que llevas un buen rato despierto (unos 20 minutos, sin mirar el reloj para comprobarlo), <strong>levántate</strong>. Ve a otro espacio con luz tenue y haz algo tranquilo y aburrido: leer en papel, doblar ropa, respirar sentado.</p>
+    <p>Vuelve a la cama solo cuando sientas sueño. Si vuelves a quedarte despierto, repite.</p>
+    <p>¿Por qué funciona? Cuando pasas muchas noches dando vueltas en la cama, tu cerebro aprende a asociar la cama con estar despierto y frustrado. Esta regla rompe esa asociación. Las primeras noches puede costar, pero es una de las estrategias con más respaldo para el insomnio.</p>`
+  },
+  {
+    id:'m3', cat:'madrugada', icon:'⏰',
+    titulo:'No intentes "recuperar" el sueño perdido',
+    texto:`<p>Después de una mala noche es tentador acostarse más temprano, quedarse en la cama hasta tarde o tomar una siesta larga. Parece lógico, pero suele empeorar el problema: pasas más tiempo en la cama despierto y llegas a la noche siguiente con menos sueño acumulado.</p>
+    <ul>
+      <li><strong>Levántate a tu hora de siempre</strong>, aunque hayas dormido mal.</li>
+      <li><strong>Acuéstate cuando tengas sueño</strong>, no antes "por si acaso".</li>
+      <li>Si necesitas siesta, que sea <strong>corta (menos de 30 minutos) y antes de las 3 PM</strong>.</li>
+    </ul>
+    <p>Un día cansado después de una mala noche ayuda a que la siguiente sea mejor.</p>`
+  },
+
+  // ===== PENSAMIENTOS Y ESTRÉS =====
+  {
+    id:'r1', cat:'mente', icon:'🧘',
+    titulo:'La descarga mental: sácalo de la cabeza',
+    texto:`<p>Cuando la mente se acelera con pendientes, ten una libreta junto a la cama (o mejor, en la sala) y escribe brevemente lo que te preocupa, sin buscar soluciones en ese momento.</p>
+    <p>Anotarlo le indica a tu cerebro que el pensamiento ya quedó guardado y que puede soltarlo hasta mañana. Usa luz tenue para escribir.</p>`
+  },
+  {
+    id:'r3', cat:'mente', icon:'📓',
+    titulo:'El poder de la preocupación programada',
+    texto:`<p>Dedica 10 a 15 minutos por la tarde, lejos de la hora de dormir, a escribir tus preocupaciones del día y un posible siguiente paso para cada una.</p>
+    <p>Cuando aparezcan de noche, recuérdate: "ya las anoté, las reviso mañana en mi horario de preocupación". Con unas semanas de práctica, la mente aprende que la noche no es el momento de resolver problemas.</p>`
+  },
+  {
+    id:'p1', cat:'mente', icon:'💭', destacado:true,
+    titulo:'Cuando lo que te angustia es no poder dormir',
+    texto:`<p>Muchas veces lo que nos mantiene despiertos no es un problema del día, sino el miedo a no dormir: "si no me duermo ya, mañana va a ser terrible". Ese pensamiento activa el cuerpo y aleja el sueño.</p>
+    <p>Algunas ideas que ayudan a bajarle el volumen:</p>
+    <ul>
+      <li><strong>Una mala noche no arruina el día.</strong> Probablemente estarás más cansado, pero has tenido días así antes y los has sacado adelante.</li>
+      <li><strong>Descansar despierto también cuenta.</strong> Estar tranquilo en la cama, respirando, no es tiempo perdido.</li>
+      <li><strong>El cuerpo compensa.</strong> Después de dormir poco, el sueño de la noche siguiente suele ser más profundo.</li>
+    </ul>
+    <p>Cuando aparezca el pensamiento, nómbralo ("ahí está otra vez el miedo a no dormir") y vuelve a la respiración, sin discutir con él.</p>`
+  },
+  {
+    id:'r2', cat:'mente', icon:'🌿',
+    titulo:'La técnica 5-4-3-2-1 para volver al presente',
+    texto:`<p>Funciona bien a oscuras y con los ojos cerrados. Identifica mentalmente:</p>
+    <ul>
+      <li><strong>5</strong> sensaciones de tu cuerpo (el peso de las piernas, la sábana, la almohada…)</li>
+      <li><strong>4</strong> sonidos que escuchas</li>
+      <li><strong>3</strong> texturas que tocan tu piel</li>
+      <li><strong>2</strong> olores</li>
+      <li><strong>1</strong> cosa por la que estás agradecido hoy</li>
+    </ul>
+    <p>Este anclaje en los sentidos ayuda a salir del bucle de pensamientos ansiosos.</p>`
+  },
+  {
+    id:'p2', cat:'mente', icon:'💪',
+    titulo:'Relajación muscular progresiva',
+    texto:`<p>Consiste en tensar un grupo de músculos unos 5 segundos y luego soltarlo de golpe durante 15 o 20 segundos, notando la diferencia. Recorre el cuerpo en este orden:</p>
+    <ul>
+      <li>Pies y dedos → pantorrillas → muslos</li>
+      <li>Abdomen → manos (cierra los puños) → brazos</li>
+      <li>Hombros (súbelos hacia las orejas) → cara (aprieta ojos y mandíbula)</li>
+    </ul>
+    <p>Tensa con suavidad, sin llegar al dolor. Si tienes alguna lesión, sáltate esa zona. Puedes hacerlo antes de dormir o al despertarte de noche.</p>`
+  },
+
+  // ===== HORARIOS Y HABITACIÓN =====
+  {
+    id:'h1', cat:'habitos', icon:'📅',
+    titulo:'La hora de levantarte es tu ancla',
+    texto:`<p>De todos los hábitos, el que más ordena el sueño es <strong>levantarte a la misma hora todos los días</strong>, incluidos los fines de semana.</p>
+    <p>Tu reloj interno se ajusta según la hora en que empiezas el día. Si un día te levantas a las 6 y otro a las 10, es como vivir con jet lag. Elige una hora que puedas cumplir siempre y respétala, aunque hayas dormido mal.</p>`
+  },
+  {
+    id:'h2', cat:'habitos', icon:'🛏️',
+    titulo:'Tu habitación: oscura, fresca y silenciosa',
+    texto:`<ul>
+      <li><strong>Oscuridad:</strong> cortinas gruesas o antifaz. Tapa las luces de cargadores y aparatos.</li>
+      <li><strong>Temperatura:</strong> un poco fresca suele ser mejor que cálida. Si te despiertas con calor, revisa cobijas y ropa de dormir.</li>
+      <li><strong>Ruido:</strong> tapones para los oídos o un sonido constante de fondo (ventilador, ruido blanco).</li>
+      <li><strong>El reloj, fuera de la vista:</strong> gíralo hacia la pared y deja el celular lejos de la cama.</li>
+      <li><strong>La cama, solo para dormir</strong> (y la intimidad). Trabajar, comer o ver series en la cama debilita la asociación cama-sueño.</li>
+    </ul>`
+  },
+
+  // ===== ALIMENTACIÓN =====
+  {
+    id:'r4', cat:'nutricion', icon:'☕',
+    titulo:'Cafeína: más duradera de lo que crees',
+    texto:`<p>La cafeína puede seguir activa en tu cuerpo muchas horas después de tomarla, incluso si te duermes sin problema. Puede hacer tu sueño más ligero y facilitar los despertares de madrugada.</p>
+    <p>Prueba tomar tu último café antes del mediodía o de la 1 PM durante dos semanas y compara en tu Registro. Recuerda que también tienen cafeína el té negro y verde, el mate, las bebidas de cola, las energizantes y el chocolate.</p>`
+  },
+  {
+    id:'n1', cat:'nutricion', icon:'🍷',
+    titulo:'Alcohol: te duerme, pero te despierta',
+    texto:`<p>Una o dos copas en la noche pueden ayudarte a quedarte dormido, pero cuando el cuerpo termina de procesar el alcohol, el sueño se vuelve más ligero y fragmentado. Por eso es muy común despertarse a mitad de la noche después de haber tomado.</p>
+    <p>Si tus despertares de madrugada coinciden con noches en que tomaste, prueba dos semanas sin alcohol en la noche y compara en tu Registro.</p>`
+  },
+  {
+    id:'r5', cat:'nutricion', icon:'🍽️',
+    titulo:'Cenas ligeras para un sueño continuo',
+    texto:`<p>Las comidas pesadas, grasosas o muy picantes cerca de la hora de dormir pueden causar digestión lenta, acidez y despertares. Intenta cenar 2 a 3 horas antes de acostarte, algo moderado.</p>
+    <p>Tampoco te acuestes con hambre: si la necesitas, una merienda pequeña está bien.</p>`
+  },
+  {
+    id:'r6', cat:'nutricion', icon:'🍵',
+    titulo:'Infusiones y líquidos en la noche',
+    texto:`<p>Una infusión sin cafeína, como la manzanilla, puede ser un buen ritual para bajar el ritmo. Su efecto principal es el momento de calma, no un efecto sedante fuerte.</p>
+    <ul>
+      <li>Tómala en <strong>taza pequeña y al menos una hora antes de acostarte</strong>: los líquidos en la noche son una causa común de despertares para ir al baño.</li>
+      <li>Si tomas medicamentos, estás embarazada o en lactancia, consulta antes de usar plantas como valeriana o pasiflora.</li>
+      <li>Evita el té negro y el verde en la noche: tienen cafeína.</li>
+    </ul>`
+  },
+
+  // ===== MOVIMIENTO Y LUZ =====
+  {
+    id:'r9', cat:'ejercicio', icon:'🌤️',
+    titulo:'Luz natural por la mañana',
+    texto:`<p>Exponerte a luz natural en la primera hora después de despertar ayuda a sincronizar tu reloj interno, lo que facilita tener sueño a una hora estable en la noche.</p>
+    <p>Abre las cortinas apenas te levantes, desayuna cerca de una ventana o sal a caminar unos minutos. Incluso en días nublados, la luz de afuera es mucho más intensa que la de interiores. En la noche, haz lo contrario: luces bajas y cálidas.</p>`
+  },
+  {
+    id:'r7', cat:'ejercicio', icon:'🚶',
+    titulo:'Movimiento diario, no necesariamente intenso',
+    texto:`<p>Caminar 20 a 30 minutos al día, idealmente con luz del sol, suele ayudar a dormir más profundo. No necesitas ejercicio intenso: la constancia importa más que la intensidad.</p>`
+  },
+  {
+    id:'r8', cat:'ejercicio', icon:'🧎',
+    titulo:'Estiramientos suaves antes de dormir',
+    texto:`<p>Una rutina corta de estiramientos suaves (cuello, espalda, piernas) ayuda a soltar la tensión acumulada del día. Hazlos lento, respirando, sin rebotes ni dolor.</p>
+    <p>Deja el ejercicio intenso para la mañana o la tarde: en las 2 horas antes de dormir puede activar el cuerpo.</p>`
+  },
+
+  // ===== CUÁNDO CONSULTAR =====
+  {
+    id:'a1', cat:'ayuda', icon:'🩺', destacado:true,
+    titulo:'Cuándo buscar ayuda profesional',
+    texto:`<p>Estas herramientas ayudan a muchas personas, pero algunos problemas de sueño necesitan atención médica. Consulta a un profesional de la salud si:</p>
+    <ul>
+      <li>El insomnio ocurre <strong>3 o más noches por semana durante más de 3 meses</strong>.</li>
+      <li>Roncas fuerte, alguien te ha visto <strong>dejar de respirar</strong> mientras duermes o te despiertas ahogándote.</li>
+      <li>Tienes <strong>mucho sueño durante el día</strong>, al punto de quedarte dormido manejando, trabajando o en conversaciones.</li>
+      <li>Te sientes <strong>triste, sin ganas o muy ansioso</strong> la mayor parte del tiempo.</li>
+      <li>El dolor, las ganas frecuentes de orinar, la menopausia o un medicamento parecen ser lo que te despierta.</li>
+      <li>Sientes las piernas inquietas o con ganas incontrolables de moverlas en la noche.</li>
+    </ul>
+    <p>Para el insomnio crónico, el tratamiento con más respaldo es la <strong>terapia cognitivo-conductual para el insomnio (TCC-I)</strong>, que imparten psicólogos o especialistas en sueño. Si tomas medicamentos para dormir, no los dejes ni cambies la dosis sin hablar con tu médico.</p>`
+  }
+];
+
+const nombresCategoria = {
+  madrugada:'De madrugada', mente:'Pensamientos y estrés', habitos:'Horarios y habitación',
+  nutricion:'Alimentación', ejercicio:'Movimiento y luz', ayuda:'Cuándo consultar'
+};
+
+function cargarLeidos(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
+}
+function guardarLeidos(obj){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }catch(e){}
+}
+let leidos = cargarLeidos();
+let categoriaActiva = 'todos';
+
+function mostrarToast(msg){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(mostrarToast._t);
+  mostrarToast._t = setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+function abrirCerrar(card){
+  const body = card.querySelector('.recurso-body');
+  const header = card.querySelector('.recurso-header');
+  const abrir = !card.classList.contains('open');
+  if(abrir){
+    card.classList.add('open');
+    body.style.height = body.scrollHeight + 'px';
+    // Al terminar la animación, altura libre para que nada se corte (p. ej. al girar el teléfono)
+    body.addEventListener('transitionend', function fin(){
+      if(card.classList.contains('open')) body.style.height = 'auto';
+      body.removeEventListener('transitionend', fin);
+    });
+  }else{
+    body.style.height = body.scrollHeight + 'px';
+    body.offsetHeight; // fuerza el cálculo antes de cerrar
+    body.style.height = '0px';
+    card.classList.remove('open');
+  }
+  header.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+}
+
+function renderizarRecursos(){
+  const cont = document.getElementById('recursosGrid');
+  cont.innerHTML = '';
+  const lista = recursos.filter(r => categoriaActiva === 'todos' || r.cat === categoriaActiva);
+
+  lista.forEach(r=>{
+    const isLeido = !!leidos[r.id];
+    const card = document.createElement('div');
+    card.className = 'recurso-card' + (isLeido ? ' leido' : '') + (r.destacado ? ' destacado' : '');
+    card.innerHTML = `
+      <button class="recurso-header" aria-expanded="false" aria-controls="body-${r.id}">
+        <span class="titulo-wrap">
+          <span class="icon" aria-hidden="true">${r.icon}</span>
+          <span>
+            <span class="titulo">${r.titulo}</span>
+            <span class="categoria">${nombresCategoria[r.cat]}${r.destacado ? ' · ⭐ Esencial' : ''}<span class="badge-leido">✓ Leído</span></span>
+          </span>
+        </span>
+        <span class="toggle" aria-hidden="true">+</span>
+      </button>
+      <div class="recurso-body" id="body-${r.id}">
+        <div class="recurso-inner">
+          ${r.texto}
+          <div class="recurso-footer">
+            <label class="marcar-leido">
+              <input type="checkbox" data-id="${r.id}" ${isLeido ? 'checked' : ''}>
+              Marcar como leído
+            </label>
+          </div>
+        </div>
+      </div>
+    `;
+    card.querySelector('.recurso-header').addEventListener('click', ()=> abrirCerrar(card));
+    card.querySelector('.marcar-leido input').addEventListener('change', (e)=>{
+      leidos[r.id] = e.target.checked;
+      guardarLeidos(leidos);
+      card.classList.toggle('leido', e.target.checked);
+      actualizarProgreso();
+      mostrarToast(e.target.checked ? '¡Marcado como leído!' : 'Marcado como no leído');
+    });
+    cont.appendChild(card);
+  });
+}
+
+function actualizarProgreso(){
+  const total = recursos.length;
+  const leidosCount = recursos.filter(r => leidos[r.id]).length;
+  document.getElementById('progresoTexto').textContent =
+    leidosCount === total ? `✨ ¡Leíste las ${total} guías!` : `${leidosCount} de ${total} leídos`;
+  document.getElementById('progresoFill').style.width = `${(leidosCount/total)*100}%`;
+}
+
+document.getElementById('filtros').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.filtro-btn');
+  if(!btn) return;
+  document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  categoriaActiva = btn.dataset.cat;
+  renderizarRecursos();
+});
+
+renderizarRecursos();
+actualizarProgreso();
+</script>
+</body>
+</html>
