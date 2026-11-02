@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenida — Cómo dormir sin despertarte a las 3 AM</title>
+<meta name="theme-color" content="#0B1220">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220; --bg2:#070C16; --card:#141F33; --cta:#A99BFF; --cta-hover:#B8ADFF;
+    --accent:#8EB7D9; --heading:#F7F4ED; --body:#AEB8C8; --success:#91B9A5; --warn:#E3C48F;
+    --linea:rgba(247,244,237,.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:'Fraunces',serif; font-weight:600; color:var(--heading); letter-spacing:-.01em; line-height:1.2; }
+  strong{ color:var(--heading); font-weight:600; }
+  a{ color:inherit; }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 20px; }
+
+  /* NAV (igual a las herramientas) */
+  nav.topnav{ background:var(--bg2); border-bottom:1px solid var(--linea); position:sticky; top:0; z-index:50; }
+  .navbar{ max-width:900px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .navbar .logo{ font-family:'Fraunces',serif; color:var(--heading); font-size:1.05rem; text-decoration:none; }
+  .tabs{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs a{ text-decoration:none; font-size:.86rem; font-weight:500; color:var(--body); padding:8px 14px; border-radius:8px; border:1px solid transparent; }
+  .tabs a:hover{ color:var(--heading); }
+  .tabs a.active{ background:var(--card); color:var(--accent); border-color:var(--linea); }
+
+  section{ margin-bottom:56px; }
+  .eyebrow{ display:inline-block; font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+  .sec-title{ font-size:1.5rem; margin-bottom:10px; }
+  .sec-sub{ font-size:.97rem; margin-bottom:24px; max-width:640px; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--cta); color:#191231; font-weight:600; font-size:.95rem;
+    padding:12px 22px; border-radius:10px; border:none; cursor:pointer;
+    text-decoration:none; box-shadow:0 4px 0 #7A6DD1; transition:transform .1s ease, background .1s ease;
+  }
+  .btn:hover{ background:var(--cta-hover); transform:translateY(-2px); }
+  .btn:active{ transform:translateY(2px); box-shadow:0 2px 0 #7A6DD1; }
+  .btn.secundario{ background:transparent; color:var(--body); box-shadow:none; border:1px solid var(--linea); }
+  .btn.secundario:hover{ color:var(--heading); background:var(--card); }
+
+  /* HERO */
+  .hero{ padding:48px 0 40px; display:grid; grid-template-columns:1fr auto; gap:30px; align-items:center; }
+  @media(max-width:640px){ .hero{ grid-template-columns:1fr; padding-top:36px; } .luna{ display:none; } }
+  .hero h1{ font-size:clamp(1.9rem, 5vw, 2.6rem); margin-bottom:14px; }
+  .hero h1 em{ font-style:italic; font-weight:400; color:var(--cta); }
+  .hero p{ font-size:1.04rem; max-width:560px; }
+  .luna{ width:110px; height:110px; border-radius:50%; background:radial-gradient(circle at 38% 34%, #D8D1FF, #8E82E0 60%, #5F53B8); box-shadow:0 0 80px rgba(169,155,255,.35); }
+  .promesa{ margin-top:22px; background:var(--card); border-left:3px solid var(--cta); border-radius:0 12px 12px 0; padding:16px 20px; font-size:.95rem; max-width:620px; }
+
+  .donde{ display:inline-block; background:var(--bg); border:1px dashed rgba(169,155,255,.45); color:var(--body); border-radius:10px; padding:11px 16px; font-size:.9rem; }
+  .donde strong{ color:var(--cta); }
+  .numero{ width:26px; height:26px; border-radius:50%; background:rgba(169,155,255,.18); color:var(--cta); font-weight:700; font-size:.85rem; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  span.mini{ display:inline-block; margin-top:8px; font-size:.86rem; color:var(--accent); font-weight:600; }
+  .pregunta{ background:var(--card); border:1px solid var(--linea); border-radius:12px; padding:16px 20px; }
+  .pregunta h3{ font-family:'Inter',sans-serif; font-size:.96rem; font-weight:600; margin-bottom:6px; }
+  .pregunta p{ font-size:.92rem; }
+  /* Primeros pasos (checklist) */
+  .checklist{ background:var(--card); border:1px solid rgba(169,155,255,.35); border-radius:18px; padding:26px; }
+  @media(max-width:480px){ .checklist{ padding:20px; } }
+  .check-cab{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
+  .check-cab h2{ font-size:1.35rem; }
+  .barra-prog{ flex:1; min-width:140px; max-width:220px; height:8px; background:var(--bg); border-radius:999px; overflow:hidden; }
+  .barra-prog div{ height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--cta)); transition:width .3s ease; }
+  .prog-txt{ font-size:.85rem; color:var(--success); font-weight:600; }
+  .paso-check{ display:grid; grid-template-columns:28px 1fr; gap:12px; padding:16px 0; border-top:1px solid var(--linea); }
+  .paso-check input{ width:20px; height:20px; accent-color:var(--success); margin-top:3px; cursor:pointer; }
+  .paso-check label{ cursor:pointer; }
+  .paso-check h3{ font-family:'Inter',sans-serif; font-size:1rem; font-weight:600; margin-bottom:3px; }
+  .paso-check p{ font-size:.9rem; }
+  .paso-check a.mini{ display:inline-block; margin-top:8px; font-size:.86rem; color:var(--accent); font-weight:600; text-decoration:none; }
+  .paso-check.hecho h3{ color:var(--success); text-decoration:line-through; opacity:.8; }
+
+  /* Tarjetas de herramientas */
+  .tools{ display:flex; flex-direction:column; gap:18px; }
+  .tool{ background:var(--card); border:1px solid var(--linea); border-radius:18px; padding:26px; }
+  @media(max-width:480px){ .tool{ padding:20px; } }
+  .tool-cab{ display:flex; gap:14px; align-items:flex-start; margin-bottom:14px; }
+  .tool-cab .ico{ font-size:1.8rem; line-height:1; flex:0 0 auto; }
+  .tool-cab .num{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .tool-cab h3{ font-size:1.22rem; margin-top:2px; }
+  .tool .para{ font-size:.95rem; margin-bottom:16px; }
+  .meta{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+  @media(max-width:560px){ .meta{ grid-template-columns:1fr; } }
+  .meta div{ background:var(--bg); border:1px solid var(--linea); border-radius:12px; padding:12px 14px; font-size:.88rem; }
+  .meta b{ display:block; color:var(--heading); font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; margin-bottom:3px; }
+  .como{ list-style:none; counter-reset:c; display:flex; flex-direction:column; gap:9px; margin-bottom:18px; }
+  .como li{ counter-increment:c; display:grid; grid-template-columns:26px 1fr; gap:10px; font-size:.92rem; }
+  .como li::before{ content:counter(c); width:22px; height:22px; border-radius:50%; background:rgba(169,155,255,.18); color:var(--cta); font-size:.78rem; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .tip{ font-size:.86rem; background:rgba(145,185,165,.08); border:1px solid rgba(145,185,165,.25); border-radius:10px; padding:10px 14px; margin-bottom:18px; }
+  .tool.destacada{ border-color:rgba(169,155,255,.45); background:linear-gradient(135deg,#1B1530,#141F33); }
+
+  /* Día */
+  .dia{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  @media(max-width:720px){ .dia{ grid-template-columns:1fr; } }
+  .momento{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:22px; }
+  .momento .cuando{ display:inline-block; font-size:.74rem; font-weight:700; background:var(--accent); color:#0B1220; padding:4px 11px; border-radius:999px; margin-bottom:12px; }
+  .momento h3{ font-size:1.08rem; margin-bottom:6px; }
+  .momento p{ font-size:.9rem; }
+  .momento .dur{ display:block; margin-top:10px; font-size:.8rem; color:var(--success); font-weight:600; }
+
+  /* Plan semanas */
+  .semanas{ display:flex; flex-direction:column; border-left:2px solid var(--linea); margin-left:8px; }
+  .semanas div{ position:relative; padding:0 0 24px 26px; }
+  .semanas div::before{ content:''; position:absolute; left:-7px; top:6px; width:12px; height:12px; border-radius:50%; background:var(--cta); }
+  .semanas div:last-child{ padding-bottom:0; }
+  .semanas h3{ font-size:1.04rem; margin-bottom:3px; }
+  .semanas p{ font-size:.92rem; }
+
+  /* Instalar */
+  .instalar{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media(max-width:640px){ .instalar{ grid-template-columns:1fr; } }
+  .instalar > div{ background:var(--card); border:1px solid var(--linea); border-radius:16px; padding:22px; }
+  .instalar h3{ font-size:1.05rem; margin-bottom:10px; }
+  .instalar ol{ padding-left:20px; font-size:.92rem; display:flex; flex-direction:column; gap:6px; }
+
+  /* Importante */
+  .avisos{ display:flex; flex-direction:column; gap:10px; }
+  .aviso{ display:grid; grid-template-columns:30px 1fr; gap:12px; background:var(--card); border:1px solid var(--linea); border-radius:14px; padding:16px 18px; font-size:.93rem; }
+  .aviso .i{ font-size:1.25rem; line-height:1.3; }
+
+  /* FAQ */
+  .faq{ display:flex; flex-direction:column; gap:10px; }
+  .faq details{ background:var(--card); border:1px solid var(--linea); border-radius:12px; }
+  .faq summary{ list-style:none; cursor:pointer; padding:16px 20px; font-weight:600; color:var(--heading); display:flex; justify-content:space-between; gap:16px; font-size:.96rem; }
+  .faq summary::-webkit-details-marker{ display:none; }
+  .faq summary::after{ content:'+'; font-size:1.3rem; line-height:1; color:var(--body); transition:transform .2s ease; }
+  .faq details[open] summary::after{ transform:rotate(45deg); }
+  .faq details p{ padding:0 20px 16px; font-size:.92rem; }
+
+  .final{ text-align:center; background:var(--card); border:1px solid var(--linea); border-radius:18px; padding:34px 24px; }
+  .final h2{ font-size:1.5rem; margin-bottom:8px; }
+  .final p{ margin-bottom:20px; }
+
+  footer{ background:var(--bg2); border-top:1px solid var(--linea); text-align:center; padding:30px 20px; font-size:.85rem; margin-top:60px; }
+  footer a{ color:var(--accent); text-decoration:none; }
+  .descargo{ font-size:.78rem; opacity:.75; max-width:620px; margin:0 auto 12px; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navbar">
+    <div class="logo">🌙 Cómo Dormir Sin Despertarte a las 3 AM</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- BIENVENIDA -->
+  <header class="hero">
+    <div>
+      <span class="eyebrow">Guía de bienvenida · Solo lectura</span>
+      <h1>Qué bueno tenerte aquí. <em>Empecemos.</em></h1>
+      <p>En esta guía te explico cómo funcionan tus 4 herramientas, cuándo usar cada una y qué hacer hoy para empezar. Toma unos 5 minutos leerla. Cada herramienta la abres desde su propio módulo.</p>
+      <div class="promesa"><strong>Lo más importante:</strong> no tienes que hacerlo todo perfecto. Unos minutos al día, con constancia, es lo que marca la diferencia. Las primeras noches pueden costar; es parte del proceso.</div>
+    </div>
+    <div class="luna" aria-hidden="true"></div>
+  </header>
+
+  <!-- PRIMEROS PASOS -->
+  <section id="empieza">
+    <div class="checklist">
+      <div class="check-cab">
+        <h2>Tus primeros pasos de hoy</h2>
+      </div>
+
+      <div class="paso-check">
+        <span class="numero">1</span>
+        <div><h3>Guarda las herramientas en tu pantalla de inicio</h3><p>Así las abres como una app, en un toque, sin buscarlas a las 3 AM.</p><span class="mini">Más abajo te explico cómo hacerlo.</span></div>
+      </div>
+
+      <div class="paso-check">
+        <span class="numero">2</span>
+        <div><h3>Haz el diagnóstico de tus hábitos (Herramienta 2)</h3><p>Responde cómo son tus noches hoy y mira qué conviene ajustar. Luego crea tu rutina. Toma 3 minutos.</p><span class="mini">📍 Módulo Herramienta 2: Rutina</span></div>
+      </div>
+
+      <div class="paso-check">
+        <span class="numero">3</span>
+        <div><h3>Conoce el Modo 3 AM de día</h3><p>Ábrelo una vez ahora, con calma, para que esta noche ya sepas cómo funciona. Está en la Herramienta 1.</p><span class="mini">📍 Módulo Herramienta 1: Respiración</span></div>
+      </div>
+
+      <div class="paso-check">
+        <span class="numero">4</span>
+        <div><h3>Esta noche: 3 minutos de respiración 4-6</h3><p>Hazla ya en la cama, antes de dormir, aunque te sientas bien. La idea es que la domines antes de necesitarla.</p></div>
+      </div>
+
+      <div class="paso-check">
+        <span class="numero">5</span>
+        <div><h3>Mañana al levantarte: registra tu primera noche</h3><p>Un minuto en el Diario de sueño (Herramienta 3). Usa números aproximados.</p><span class="mini">📍 Módulo Herramienta 3: Registro</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAS 4 HERRAMIENTAS -->
+  <section id="herramientas">
+    <span class="eyebrow">Tus herramientas</span>
+    <h2 class="sec-title">Qué hace cada una y cómo usarla</h2>
+    <p class="sec-sub">Las 4 trabajan juntas: una te ayuda en el momento del despertar y las otras tres atacan lo que provoca esos despertares.</p>
+
+    <div class="tools">
+      <!-- 1 -->
+      <div class="tool destacada">
+        <div class="tool-cab"><span class="ico">🌬️</span><div><span class="num">Herramienta 1</span><h3>Respiración guiada y Modo 3 AM</h3></div></div>
+        <p class="para">Para calmar el cuerpo antes de dormir y para el momento exacto en que te despiertas de madrugada.</p>
+        <div class="meta">
+          <div><b>Cuándo usarla</b>Cada noche antes de dormir (3 a 5 minutos) y cuando te despiertes en la madrugada.</div>
+          <div><b>Lo más importante</b>El Modo 3 AM: pantalla casi negra y sin la hora, para no despertarte más.</div>
+        </div>
+        <ul class="como">
+          <li><span><strong>Antes de dormir:</strong> elige un ejercicio (empieza por la respiración lenta 4-6), toca "Iniciar práctica" y sigue el círculo: crece al inhalar y se encoge al exhalar.</span></li>
+          <li><span><strong>Si te despiertas:</strong> no mires la hora. Abre la herramienta y toca "Abrir Modo 3 AM". Respira con la guía durante un par de minutos.</span></li>
+          <li><span><strong>Al terminar:</strong> deja el celular boca abajo, lejos de ti, y sigue descansando con los ojos cerrados.</span></li>
+          <li><span><strong>Si llevas un buen rato despierto:</strong> toca "Llevo un buen rato despierto" y sigue las indicaciones.</span></li>
+        </ul>
+        <div class="tip">💡 Practica la respiración también en las noches buenas. Una técnica que ya dominas funciona mucho mejor a las 3 AM.</div>
+        <div class="donde">📍 La encuentras en el módulo <strong>Herramienta 1: Respiración</strong></div>
+      </div>
+
+      <!-- 2 -->
+      <div class="tool">
+        <div class="tool-cab"><span class="ico">🌙</span><div><span class="num">Herramienta 2</span><h3>Rutina nocturna personalizada</h3></div></div>
+        <p class="para">Te ayuda a descubrir qué hábitos pueden estar provocando tus despertares y arma una rutina con horarios para cada noche.</p>
+        <div class="meta">
+          <div><b>Cuándo usarla</b>El primer día para crearla (unos 5 minutos) y luego cada noche para seguirla.</div>
+          <div><b>Lo más importante</b>Tu hora fija para levantarte, todos los días, también el fin de semana.</div>
+        </div>
+        <ul class="como">
+          <li><span><strong>Paso 1:</strong> marca lo que haces hoy antes de dormir y toca "Guardar y ver qué ajustar". Lee las recomendaciones.</span></li>
+          <li><span><strong>Paso 2:</strong> elige tu hora fija para levantarte, tu hora para acostarte y los hábitos de tu rutina. Toca "Crear mi nueva rutina".</span></li>
+          <li><span><strong>Paso 3:</strong> cada noche, marca los pasos a medida que los haces. Al día siguiente la lista empieza de cero.</span></li>
+        </ul>
+        <div class="tip">💡 No intentes cambiar todo de una vez. Empieza con 3 o 4 hábitos y agrega más cuando ya te salgan solos.</div>
+        <div class="donde">📍 La encuentras en el módulo <strong>Herramienta 2: Rutina</strong></div>
+      </div>
+
+      <!-- 3 -->
+      <div class="tool">
+        <div class="tool-cab"><span class="ico">📊</span><div><span class="num">Herramienta 3</span><h3>Diario de sueño</h3></div></div>
+        <p class="para">Mide cuánto duermes de verdad y cuánto tardas en volver a dormirte. Es la forma de ver tu avance con datos, no con sensaciones.</p>
+        <div class="meta">
+          <div><b>Cuándo usarla</b>Cada mañana, apenas te levantes. Toma un minuto.</div>
+          <div><b>Lo más importante</b>Los "minutos para volver a dormir": si bajan con las semanas, vas por buen camino.</div>
+        </div>
+        <ul class="como">
+          <li><span>Registra la noche anterior: a qué hora te acostaste y te levantaste, cuánto tardaste en dormirte y cuánto estuviste despierto.</span></li>
+          <li><span>Si tuviste un despertar largo, anota más o menos a qué hora fue y cuánto tardaste en volver a dormirte.</span></li>
+          <li><span>Desde la tercera noche verás sugerencias según tus datos, y desde la séptima, tu avance.</span></li>
+          <li><span>De vez en cuando, toca "Exportar CSV" para guardar una copia de tu diario.</span></li>
+        </ul>
+        <div class="tip">💡 Usa números aproximados. No mires el reloj de noche para "medir": solo estima al despertarte.</div>
+        <div class="donde">📍 La encuentras en el módulo <strong>Herramienta 3: Registro</strong></div>
+      </div>
+
+      <!-- 4 -->
+      <div class="tool">
+        <div class="tool-cab"><span class="ico">💚</span><div><span class="num">Herramienta 4</span><h3>Biblioteca de autoayuda</h3></div></div>
+        <p class="para">18 guías cortas sobre qué hacer de madrugada, cómo calmar los pensamientos y qué hábitos cambian tu sueño.</p>
+        <div class="meta">
+          <div><b>Cuándo usarla</b>De día, con calma. Una o dos guías al día.</div>
+          <div><b>Por dónde empezar</b>La categoría "De madrugada" y las guías marcadas como ⭐ Esencial.</div>
+        </div>
+        <ul class="como">
+          <li><span>Usa los filtros de arriba para elegir un tema. Toca una guía para abrirla.</span></li>
+          <li><span>Al terminar, marca "Marcar como leído" para llevar tu progreso.</span></li>
+          <li><span>Elige una sola cosa para aplicar esta semana y revisa en tu diario si notas cambios.</span></li>
+        </ul>
+        <div class="donde">📍 La encuentras en el módulo <strong>Herramienta 4: Autoayuda</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TU DÍA -->
+  <section>
+    <span class="eyebrow">Tu día a día</span>
+    <h2 class="sec-title">Cómo se usan juntas: 3 momentos</h2>
+    <p class="sec-sub">Unos 10 minutos al día en total.</p>
+    <div class="dia">
+      <div class="momento"><span class="cuando">Antes de dormir</span><h3>Rutina + respiración</h3><p>Sigue tu rutina (Herramienta 2) y termina con 3 a 5 minutos de respiración ya en la cama (Herramienta 1).</p><span class="dur">⏱ Unos 10 minutos</span></div>
+      <div class="momento"><span class="cuando">Si te despiertas</span><h3>Modo 3 AM</h3><p>Sin mirar la hora. Abre el Modo 3 AM, respira con la guía, deja el celular y descansa.</p><span class="dur">⏱ Unos 2 minutos</span></div>
+      <div class="momento"><span class="cuando">Al levantarte</span><h3>Registra tu noche</h3><p>Un minuto en el Diario de sueño (Herramienta 3). Y en el día, lee una guía (Herramienta 4).</p><span class="dur">⏱ 1 minuto</span></div>
+    </div>
+  </section>
+
+  <!-- PLAN -->
+  <section>
+    <span class="eyebrow">Qué esperar</span>
+    <h2 class="sec-title">Tu plan para las primeras 4 semanas</h2>
+    <p class="sec-sub">El sueño no cambia de una noche a otra, pero sí con constancia. Este es un camino realista.</p>
+    <div class="semanas">
+      <div><h3>Semana 1: arrancar</h3><p>Crea tu rutina, fija tu hora de levantarte y registra cada noche. Lee las guías de "De madrugada". Algunas noches pueden costar: es normal.</p></div>
+      <div><h3>Semana 2: ajustar</h3><p>Revisa las sugerencias de tu diario. Elige uno o dos hábitos para cambiar, por ejemplo, la cafeína después del mediodía o el celular lejos de la cama.</p></div>
+      <div><h3>Semanas 3 y 4: consolidar</h3><p>Mantén la rutina y la hora fija para levantarte. Es cuando muchas personas empiezan a notar cambios. Mira en tu diario si tardas menos en volver a dormirte.</p></div>
+    </div>
+  </section>
+
+  <!-- INSTALAR -->
+  <section id="instalar">
+    <span class="eyebrow">Recomendado</span>
+    <h2 class="sec-title">Guárdalas en tu pantalla de inicio</h2>
+    <p class="sec-sub">Así aparecen con un ícono, como una app, y las abres en un toque. Hazlo dentro de cada herramienta, empezando por la Herramienta 1, que es la que usarás de madrugada.</p>
+    <div class="instalar">
+      <div>
+        <h3>📱 En iPhone (Safari)</h3>
+        <ol>
+          <li>Abre la herramienta en <strong>Safari</strong>.</li>
+          <li>Toca el botón <strong>Compartir</strong> (el cuadrado con la flecha hacia arriba).</li>
+          <li>Elige <strong>"Agregar a inicio"</strong>.</li>
+          <li>Toca <strong>"Agregar"</strong>.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>🤖 En Android (Chrome)</h3>
+        <ol>
+          <li>Abre la herramienta en <strong>Chrome</strong>.</li>
+          <li>Toca el menú <strong>⋮</strong> (arriba a la derecha).</li>
+          <li>Elige <strong>"Agregar a la pantalla principal"</strong>.</li>
+          <li>Toca <strong>"Agregar"</strong>.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPORTANTE -->
+  <section>
+    <span class="eyebrow">Importante</span>
+    <h2 class="sec-title">Antes de empezar, ten en cuenta</h2>
+    <div class="avisos">
+      <div class="aviso"><span class="i">💾</span><span><strong>Tu progreso se guarda en este celular y en este navegador.</strong> Usa siempre el mismo para que no se pierda. Si cambias de celular o abres las herramientas en otro navegador, empezarás de cero.</span></div>
+      <div class="aviso"><span class="i">🧹</span><span><strong>No borres los datos de navegación</strong> de este navegador, o se borrará tu progreso. Para tener una copia de tu diario, usa "Exportar CSV" de vez en cuando.</span></div>
+      <div class="aviso"><span class="i">🔒</span><span><strong>Tus datos son privados.</strong> Lo que registras no se envía a ningún servidor: solo queda en tu dispositivo.</span></div>
+      <div class="aviso"><span class="i">🩺</span><span><strong>Esto no reemplaza al médico.</strong> Si el insomnio dura más de 3 meses, roncas fuerte, tienes mucho sueño durante el día o te sientes triste la mayor parte del tiempo, consulta a un profesional. La guía "Cuándo buscar ayuda profesional" (Herramienta 4) te lo explica.</span></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <span class="eyebrow">Preguntas frecuentes</span>
+    <h2 class="sec-title">Dudas comunes</h2>
+    <div class="faq">
+      <div class="pregunta"><h3>¿Tengo que usar las 4 herramientas desde el primer día?</h3><p>No. Empieza con los pasos de arriba: crear tu rutina, conocer el Modo 3 AM y registrar tu noche. Las guías puedes leerlas poco a poco.</p></div>
+      <div class="pregunta"><h3>¿Usar el celular de madrugada no empeora el sueño?</h3><p>Por eso el Modo 3 AM pone la pantalla casi negra, con letras tenues, y no te muestra la hora. Lo usas un par de minutos y luego te pide dejar el celular. Si prefieres no usar el celular de noche, apréndete los pasos de día y hazlos de memoria.</p></div>
+      <div class="pregunta"><h3>Una noche no seguí la rutina. ¿Empiezo de cero?</h3><p>No. Retómala la noche siguiente. Lo que más importa es mantener tu hora fija para levantarte, incluso después de una mala noche.</p></div>
+      <div class="pregunta"><h3>Dormí mal. ¿Me acuesto más temprano para recuperar?</h3><p>Mejor no. Acostarte antes de tener sueño suele sumar más tiempo despierto en la cama. Levántate a tu hora de siempre y acuéstate cuando tengas sueño.</p></div>
+      <div class="pregunta"><h3>¿Necesito internet?</h3><p>Para abrir las herramientas la primera vez, sí. Tu progreso queda guardado en el dispositivo.</p></div>
+      <div class="pregunta"><h3>¿A quién le escribo si tengo un problema?</h3><p>Escríbenos por Instagram a <strong>@centrodelsueno_</strong>.</p></div>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section>
+    <div class="final">
+      <h2>¿Listo para empezar?</h2>
+      <p>El primer paso toma 3 minutos: haz el diagnóstico de tus hábitos.</p>
+      <div class="donde">📍 La encuentras en el módulo <strong>Herramienta 2: Rutina</strong></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p class="descargo">Estas herramientas son de autoayuda y no sustituyen la atención médica. No dejes ni cambies ningún medicamento sin indicación de tu médico.</p>
+  Creado con 💜 para tus mejores noches — <strong>@centrodelsueno_</strong>
+</footer>
+
+</body>
+</html>
